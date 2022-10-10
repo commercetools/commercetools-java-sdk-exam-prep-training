@@ -1,0 +1,66 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+}
+plugins {
+    // Here we define all plugins that are used by subprojects and specify the version for external ones
+
+    id 'idea'
+
+    id 'maven'
+    id 'maven-publish'
+
+    id 'java'
+    id 'java-library' // needed to make sure that transitive deps have 'compile' scope
+
+    id 'com.softeq.gradle.itest' version '1.0.4'
+
+}
+
+ext {
+    versions = [
+        commercetools: "8.4.0",
+        slf4j: "1.7.32",
+        logback: "1.2.5",
+    ]
+}
+
+allprojects {
+    apply plugin: 'java'
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+}
+
+
+repositories {
+    mavenCentral()
+    maven {
+        url "https://packages.atlassian.com/maven-3rdparty"
+    }
+}
+
+
+dependencies {
+    implementation "com.commercetools.sdk:commercetools-http-client:${versions.commercetools}"
+    implementation "com.commercetools.sdk:commercetools-sdk-java-api:${versions.commercetools}"
+    implementation "com.commercetools.sdk:commercetools-sdk-java-importapi:${versions.commercetools}"
+    implementation "com.commercetools.sdk:commercetools-sdk-java-ml:${versions.commercetools}"
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.4'
+    implementation "org.slf4j:slf4j-api:${versions.slf4j}"
+    implementation "ch.qos.logback:logback-classic:${versions.logback}"
+    implementation group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
+
+    // implementation group: 'org.slf4j', name: 'slf4j-log4j12', version: '2.0.0-alpha0'
+
+    // Sync Library + old jvm sdk v1
+    // implementation 'com.commercetools:commercetools-sync-java:1.9.1'
+    // implementation 'com.commercetools.sdk.jvm.core:commercetools-models:1.53.0'
+    // implementation 'com.commercetools.sdk.jvm.core:commercetools-java-client:1.53.0'
+
+    implementation group: 'org.json', name: 'json', version: '20200518'
+    implementation 'javax.json:javax.json-api:1.1.4'
+    implementation 'org.glassfish:javax.json:1.1.4'
+
+    implementation 'io.aexp.nodes.graphql:nodes:0.4.0-atlassian-hosted'
+}
