@@ -21,27 +21,38 @@ public class CustomerService {
         this.apiRoot = client;
     }
 
-    public CompletableFuture<ApiHttpResponse<Customer>> getCustomerById(
-            String customerId
-    )
-    {
-        return
-                apiRoot
-                        .customers()
-                        .withId(customerId)
-                        .get()
-                        .execute();
-    }
+        public CompletableFuture<ApiHttpResponse<Customer>> getCustomerById(
+                String customerId
+        )
+        {
+            return
+                    apiRoot
+                            .customers()
+                            .withId(customerId)
+                            .get()
+                            .execute();
+        }
+
+        public CompletableFuture<ApiHttpResponse<Customer>> getCustomerByKey(
+                String customerKey
+        )
+        {
+            return
+                    apiRoot
+                            .customers()
+                            .withKey(customerKey)
+                            .get()
+                            .execute();
+        }
 
 
-
-            public CompletableFuture<ApiHttpResponse<CustomerSignInResult>> createCustomer(
-            final String email,
-            final String password,
-            final String customerKey,
-            final String firstName,
-            final String lastName,
-            final String country) {
+        public CompletableFuture<ApiHttpResponse<CustomerSignInResult>> createCustomer(
+        final String email,
+        final String password,
+        final String customerKey,
+        final String firstName,
+        final String lastName,
+        final String country) {
 
         return apiRoot
                         .customers()
@@ -123,7 +134,7 @@ public class CustomerService {
                         .execute();
     }
 
-    public CompletableFuture<ApiHttpResponse<Customer>> addCustomFieldValue(
+    public CompletableFuture<ApiHttpResponse<Customer>> setCustomFieldValue(
             final ApiHttpResponse<Customer> customerApiHttpResponse,
             final String customFieldName,
             final int customFieldValue

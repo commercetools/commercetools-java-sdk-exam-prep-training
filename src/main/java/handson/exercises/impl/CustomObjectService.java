@@ -35,5 +35,17 @@ public class CustomObjectService {
     }
 
 
+            public CompletableFuture<ApiHttpResponse<CustomObject>> createCustomObject(
+            String container,
+            String key,
+            JsonObject jsonData
+    ) throws JsonProcessingException {
+
+        return
+                null;
+    }
+
+
+
 
 }

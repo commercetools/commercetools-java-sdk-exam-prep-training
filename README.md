@@ -1,2 +1,11 @@
-# commercetools-java-sdk-v2-training
-Training exercises for the commercetools V2 Java SDK
+# commercetools Java Developer SDKv2 Exam Prep Course
+
+These training exercises are for the commercetools Java Developer certification exam prep course
+
+## Prerequisites:
+
+- Java > 8.171
+- Gradle
+- Two API clients setup in projects
+
+

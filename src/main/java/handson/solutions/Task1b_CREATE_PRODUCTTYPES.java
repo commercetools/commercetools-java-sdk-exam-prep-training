@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 import static handson.solutions.impl.ClientService.createApiClient;
 
 
-public class Task1b {
+public class Task1b_CREATE_PRODUCTTYPES {
 
 
     // TODO
@@ -30,11 +30,11 @@ public class Task1b {
         // Get-PagedResponse
         // Products require ProductTypes !!
         // Post complicated drafts
-        // Synch-Tool
+        // Project Sync Tool
 
         // TODO Step 1: Provide credentials in dev.properties for conc-client
         // TODO Step 2: Provide prefix in APIHelper for conc-client
-        Logger logger = LoggerFactory.getLogger(Task1b.class.getName());
+        Logger logger = LoggerFactory.getLogger(Task1b_CREATE_PRODUCTTYPES.class.getName());
         final ProjectApiRoot apiRoot_conc =
                     createApiClient(
                         ApiPrefixHelper.API_CONC_CLIENT_PREFIX.getPrefix()
@@ -53,7 +53,7 @@ public class Task1b {
                 String.join(" ",
                         productTypeService_Concept
                                 .getProductTypes()
-                                .toCompletableFuture().get()
+                                .get()
                                 .getBody().getResults()
                                 .stream()
                                 .map(productType -> atomicInteger.incrementAndGet() +  ":" + productType.getName() + " ")
@@ -63,14 +63,14 @@ public class Task1b {
 
         ProductType myRoses = productTypeService_Concept
                 .getProductTypes()
-                .toCompletableFuture().get()
+                .get()
                 .getBody().getResults().get(0);
 
         // TODO Step 4: Write the transferProductType-method in ProductTypeService.class
         // Assume 1 productType, 1 attribute
         logger.info("I've created the following product type in poc: " +
                 productTypeService_Poc.transferProductType(myRoses)
-                    .toCompletableFuture().get()
+                    .get()
                     .getBody().getName()
         );
 

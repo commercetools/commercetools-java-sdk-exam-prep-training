@@ -19,8 +19,6 @@ public class CustomerGroupService {
         this.apiRoot = client;
     }
 
-    // TODO
-    //
     public CompletableFuture<ApiHttpResponse<CustomerGroup>> createCustomerGroup(
             final String customerGroupName,
             final String customerGroupKey) {

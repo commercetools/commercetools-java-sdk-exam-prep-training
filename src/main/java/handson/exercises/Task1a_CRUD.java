@@ -10,10 +10,10 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 
-import static handson.exercises.impl.ClientService.createApiClient;
+import static handson.solutions.impl.ClientService.createApiClient;
 
 
-public class Task1a {
+public class Task1a_CRUD {
 
     public static void main(String[] args) throws IOException, ExecutionException, InterruptedException {
 
@@ -21,7 +21,7 @@ public class Task1a {
         // Api Clients
         // Get, Post
 
-        Logger logger = LoggerFactory.getLogger(Task1a.class.getName());
+        Logger logger = LoggerFactory.getLogger(Task1a_CRUD.class.getName());
 
         // TODO Step 1: Provide names
         String customerGroupName = "coolbuyers";
@@ -51,7 +51,7 @@ public class Task1a {
                                 customerGroupName,
                                 customerGroupKey
                         )
-                        .toCompletableFuture().get()
+                        .get()
                         .getBody().getName()
         );
 
@@ -60,11 +60,9 @@ public class Task1a {
         // Get the customer group
         // Assign the customer to your group
         // TODO Step 6: Call CustomerService.class, CustomerGroupService.class
-        // TODO Step 7: Assign the customer to group in CustomerService.class
         logger.info("Customer created: " +
                 ""
         );
-
 
         apiRoot_poc.close();
     }

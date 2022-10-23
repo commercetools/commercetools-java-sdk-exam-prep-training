@@ -1,15 +1,8 @@
-package handson.solutions;
+package handson.exercises;
 
 import com.commercetools.api.client.ProjectApiRoot;
-import com.commercetools.api.models.cart.Cart;
-import com.commercetools.api.models.custom_object.CustomObject;
-import com.commercetools.api.models.customer.Customer;
 import com.commercetools.api.models.order.OrderPagedQueryResponse;
-import com.commercetools.api.models.product.ProductPagedQueryResponse;
-import handson.solutions.impl.ApiPrefixHelper;
-import handson.solutions.impl.CartService;
-import handson.solutions.impl.CustomObjectService;
-import handson.solutions.impl.CustomerService;
+import handson.exercises.impl.ApiPrefixHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,14 +13,14 @@ import static handson.solutions.impl.ClientService.createApiClient;
 import static handson.solutions.impl.ClientService.projectApiRoot;
 
 
-public class Task3c {
+public class Task5_OPTIMIZATIONS {
 
     public static void main(String[] args) throws IOException, ExecutionException, InterruptedException {
 
         // Learning Goals
         // Bulk Download via continuations
 
-        Logger logger = LoggerFactory.getLogger(Task3c.class.getName());
+        Logger logger = LoggerFactory.getLogger(Task5_OPTIMIZATIONS.class.getName());
 
         final ProjectApiRoot apiRoot_poc =
                 createApiClient(

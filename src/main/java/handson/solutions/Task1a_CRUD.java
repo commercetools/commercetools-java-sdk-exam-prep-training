@@ -13,7 +13,7 @@ import java.util.concurrent.ExecutionException;
 import static handson.solutions.impl.ClientService.createApiClient;
 
 
-public class Task1a {
+public class Task1a_CRUD {
 
     public static void main(String[] args) throws IOException, ExecutionException, InterruptedException {
 
@@ -21,7 +21,7 @@ public class Task1a {
         // Api Clients
         // Get, Post
 
-        Logger logger = LoggerFactory.getLogger(Task1a.class.getName());
+        Logger logger = LoggerFactory.getLogger(Task1a_CRUD.class.getName());
 
         // TODO Step 1: Provide names
         String customerGroupName = "coolbuyers";
@@ -51,7 +51,7 @@ public class Task1a {
                                 customerGroupName,
                                 customerGroupKey
                         )
-                        .toCompletableFuture().get()
+                        .get()
                         .getBody().getName()
         );
 
@@ -73,11 +73,10 @@ public class Task1a {
                         .thenComposeAsync(customerService::verifyEmail)
                         .thenCombineAsync(customerGroupService.getCustomerGroupByKey(customerGroupKey),
                                 customerService::assignCustomerToCustomerGroup)
-                        .toCompletableFuture().get()
-                        .toCompletableFuture().get()
+                        .get()
+                        .get()
                         .getBody().getKey()
         );
-
 
         apiRoot_poc.close();
     }

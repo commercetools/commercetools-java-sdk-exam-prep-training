@@ -21,14 +21,15 @@ public class ConfigurationService {
     }
 
     // TODO
-    public CompletableFuture<ApiHttpResponse<TypePagedQueryResponse>> getAssignedTypes() {
+    // resourceTypeIds contains any ("customer")
+    public CompletableFuture<ApiHttpResponse<TypePagedQueryResponse>> getCustomTypes() {
 
         return
                 null;
     }
 
 
-    public CompletableFuture<ApiHttpResponse<Type>> assignType(
+    public CompletableFuture<ApiHttpResponse<Type>> createCustomType(
             String key,
             LocalizedString name,
             ResourceTypeId assignedType,

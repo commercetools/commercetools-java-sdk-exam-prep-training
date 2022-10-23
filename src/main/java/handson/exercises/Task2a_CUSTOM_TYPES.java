@@ -12,10 +12,10 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.concurrent.ExecutionException;
 
-import static handson.exercises.impl.ClientService.createApiClient;
+import static handson.solutions.impl.ClientService.createApiClient;
 
 
-public class Task2ab {
+public class Task2a_CUSTOM_TYPES {
 
     public static void main(String[] args) throws IOException, ExecutionException, InterruptedException {
 
@@ -23,7 +23,7 @@ public class Task2ab {
         // Get Query
         // Custom Types
 
-        Logger logger = LoggerFactory.getLogger(Task2ab.class.getName());
+        Logger logger = LoggerFactory.getLogger(Task2a_CUSTOM_TYPES.class.getName());
 
         final ProjectApiRoot apiRoot_poc =
                 createApiClient(
@@ -31,10 +31,10 @@ public class Task2ab {
                 );
         ConfigurationService configurationService = new ConfigurationService(apiRoot_poc);
 
-        // TODO Step 1: Check in ConfigurationService.java that customers have not already a type attached
-        logger.info("Customers have currently types attached: " +
-                configurationService.getAssignedTypes()
-                    .toCompletableFuture().get()
+        // TODO Step 1: Use ConfigurationService.java to check if custom type exists for storing customers' bonus points
+        logger.info("Custom types for customizing customers: " +
+                configurationService.getCustomTypes()
+                    .get()
                     .getBody().getResults()
                     .size()
         );
@@ -45,18 +45,18 @@ public class Task2ab {
                 .values(new HashMap<String, String>() {
                     {
                         put("DE", "Bonuspunkte für Kunden");
-                        put("EN", "Bonuspoints on customers");
+                        put("EN", "Bonus points on customers");
                     }
                 })
                 .build();
 
-        // TODO Step 2: Assign ConfigurationService.java a custom type for bonus points to customers
+        // TODO Step 2: Create a custom type for  storing bonus points to customers using ConfigurationService
         // You can use above localizedString for all name fields
-        logger.info("Customers have now the following types attached: " +
+        logger.info("Custom type with a custom field for bonus points created : " +
                 ""
         );
 
-        // TODO Step 3: Provide a random number 1..100 in MC for your customer
+        // TODO Step 3: Provide a random number 1..100 in the Merchnat Center for your customer
 
         apiRoot_poc.close();
     }

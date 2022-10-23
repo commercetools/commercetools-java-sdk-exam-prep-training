@@ -1,8 +1,8 @@
 package handson.exercises;
 
 import com.commercetools.api.client.ProjectApiRoot;
-import handson.solutions.impl.ApiPrefixHelper;
-import handson.solutions.impl.CustomObjectService;
+import handson.exercises.impl.ApiPrefixHelper;
+import handson.exercises.impl.CustomObjectService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,14 +14,14 @@ import java.util.concurrent.ExecutionException;
 import static handson.solutions.impl.ClientService.createApiClient;
 
 
-public class Task2c {
+public class Task2b_CUSTOM_OBJECTS {
 
     public static void main(String[] args) throws IOException, ExecutionException, InterruptedException {
 
         // Learning Goals
         // Custom Objects
 
-        Logger logger = LoggerFactory.getLogger(Task2c.class.getName());
+        Logger logger = LoggerFactory.getLogger(Task2b_CUSTOM_OBJECTS.class.getName());
 
         final ProjectApiRoot apiRoot_poc =
                 createApiClient(
@@ -41,7 +41,32 @@ public class Task2c {
         //  10.01 / 100 / 1 / 0
         //  100.01 / 100000 / 2 / 0
 
-        JsonObject allBonuspointCalculationSchemata = null;
+        JsonObject bonusPointsCalculationSchema = Json.createObjectBuilder()
+                .add("10001",
+                        Json.createObjectBuilder()
+                                .add("minCartValue", 10001)
+                                .add("maxCartValue", 10000000)
+                                .add("factor", 2)
+                                .add("addon", 0)
+                                .build()
+                )
+                .add("1001",
+                        Json.createObjectBuilder()
+                                .add("minCartValue", 1001)
+                                .add("maxCartValue", 10000)
+                                .add("factor", 1)
+                                .add("addon", 0)
+                                .build()
+                )
+                .add("1",
+                        Json.createObjectBuilder()
+                                .add("minCartValue", 1)
+                                .add("maxCartValue", 1000)
+                                .add("factor", 0)
+                                .add("addon", 1)
+                                .build()
+                )
+                .build();
 
         // TODO Step 2: Create the custom object(s)
 

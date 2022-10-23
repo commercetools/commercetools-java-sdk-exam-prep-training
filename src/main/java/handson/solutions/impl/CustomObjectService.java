@@ -35,7 +35,7 @@ public class CustomObjectService {
     }
 
 
-            public CompletableFuture<ApiHttpResponse<CustomObject>> addCustomObject(
+            public CompletableFuture<ApiHttpResponse<CustomObject>> createCustomObject(
             String container,
             String key,
             JsonObject jsonData

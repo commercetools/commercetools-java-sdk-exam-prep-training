@@ -1,26 +1,26 @@
-package handson.exercises;
+package handson.solutions;
 
 import com.commercetools.api.client.ProjectApiRoot;
 import com.commercetools.api.models.order.OrderPagedQueryResponse;
-import handson.exercises.impl.ApiPrefixHelper;
+import handson.solutions.impl.ApiPrefixHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 
-import static handson.exercises.impl.ClientService.createApiClient;
-import static handson.exercises.impl.ClientService.projectApiRoot;
+import static handson.solutions.impl.ClientService.createApiClient;
+import static handson.solutions.impl.ClientService.projectApiRoot;
 
 
-public class Task3c {
+public class Task5_OPTIMIZATIONS {
 
     public static void main(String[] args) throws IOException, ExecutionException, InterruptedException {
 
         // Learning Goals
         // Bulk Download via continuations
 
-        Logger logger = LoggerFactory.getLogger(Task3c.class.getName());
+        Logger logger = LoggerFactory.getLogger(Task5_OPTIMIZATIONS.class.getName());
 
         final ProjectApiRoot apiRoot_poc =
                 createApiClient(
@@ -31,15 +31,23 @@ public class Task3c {
         //
         String orderDate = "2022-10-10";
 
+        // TODO Step 2: Fetch first order
+        //
          // Pagination is down to max 10.000
         final int PAGE_SIZE = 1;
         boolean lastPage = false;
 
-        // TODO Step 2: Fetch first order
-        //
-        String lastId = "";
-
+        String lastId = projectApiRoot
+                .orders()
+                .get()
+                .addWhere("createdAt > \"" + orderDate + "\"")
+                .withSort("id asc")
+                .withLimit(1)
+                .execute()
+                .toCompletableFuture().get()
+                .getBody().getResults().get(0).getId();
         lastId = lastId.substring(0,lastId.length() -1) + "0"; // Starting last id less than the first one
+
         logger.info("First order: " + lastId);
 
         // TODO Step 3: Inspect code

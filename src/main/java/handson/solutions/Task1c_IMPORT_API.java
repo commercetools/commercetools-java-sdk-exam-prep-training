@@ -13,31 +13,32 @@ import java.util.concurrent.ExecutionException;
 import static handson.solutions.impl.ClientService.createImportApiClient;
 
 
-public class Task1c {
+public class Task1c_IMPORT_API {
 
     public static void main(String[] args) throws IOException, ExecutionException, InterruptedException {
 
         // Learning Goals
-        // Import API: Sinks
+        // Import API: Import Containers
         // Import API: Logging states
 
-        Logger logger = LoggerFactory.getLogger(Task1c.class.getName());
+        Logger logger = LoggerFactory.getLogger(Task1c_IMPORT_API.class.getName());
 
         // TODO Step 1: Provide your container key
         //
-        final String containerKey = "XX-exam-prep-product-date-wrong";
+        final String containerKey = "MH-exam-prep-product-data-container";
 
         // Create an admin import api client for your project
         // Use ClientService.class
+
         final ProjectApiRoot apiRoot_poc_import =
                 createImportApiClient(
                         ApiPrefixHelper.API_POC_CLIENT_PREFIX.getPrefix()
                 );
         ImportService importService = new ImportService(apiRoot_poc_import);
 
-        logger.info("I've created the following sink for poc: " +
+        logger.info("I've created the following Import Container for poc: " +
                 importService.createImportContainer(containerKey)
-                    .toCompletableFuture().get()
+                    .get()
                     .getBody().getKey()
         );
 
@@ -48,7 +49,7 @@ public class Task1c {
                         .importContainers()
                         .get()
                         .execute()
-                        .toCompletableFuture().get()
+                        .get()
                         .getBody().getTotal()
         );
         OperationStates states = apiRoot_poc_import
@@ -57,7 +58,7 @@ public class Task1c {
                 .importSummaries()
                 .get()
                 .execute()
-                .toCompletableFuture().get()
+                .get()
                 .getBody().getStates();
 
         logger.info("Processing: {} Imported: {} Unresolved: {} ",

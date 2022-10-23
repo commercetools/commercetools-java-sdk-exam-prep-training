@@ -3,6 +3,10 @@ package handson.solutions.impl;
 import com.commercetools.importapi.client.ProjectApiRoot;
 import com.commercetools.importapi.models.importcontainers.ImportContainer;
 import com.commercetools.importapi.models.importcontainers.ImportContainerDraftBuilder;
+import com.commercetools.importapi.models.importrequests.ImportResponse;
+import com.commercetools.importapi.models.importrequests.ProductDraftImportRequest;
+import com.commercetools.importapi.models.importrequests.ProductDraftImportRequestBuilder;
+import com.commercetools.importapi.models.productdrafts.ProductDraftImport;
 import io.vrap.rmf.base.client.ApiHttpResponse;
 
 import java.util.concurrent.CompletableFuture;
@@ -30,5 +34,18 @@ public class ImportService {
                         )
                         .execute();
         }
+    public CompletableFuture<ApiHttpResponse<ImportResponse>> importProduct(final String containerKey, final ProductDraftImport productDraftImport) {
 
+        return
+                apiRoot
+                        .productDrafts()
+                        .importContainers()
+                        .withImportContainerKeyValue(containerKey)
+                        .post(
+                                ProductDraftImportRequestBuilder.of()
+                                        .resources(productDraftImport)
+                                        .build()
+                        )
+                        .execute();
+    }
 }
