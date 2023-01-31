@@ -50,8 +50,8 @@ public class Task4_SUBSCRIPTIONS {
                             SqsDestinationBuilder.of()
                                 .queueUrl("https://sqs.us-east-2.amazonaws.com/015253045234/training_customer_change_queue")
                                 .region("us-east-2")
-                                .accessKey("AKIAQHDJG77ZPOXBFOHH")
-                                .accessSecret("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")
+                                .accessKey("")
+                                .accessSecret("")
                                 .build()
                         )
                         .changes(

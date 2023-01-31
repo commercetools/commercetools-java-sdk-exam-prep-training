@@ -54,7 +54,7 @@ public class Task2a_CUSTOM_TYPES {
                 })
                 .build();
 
-        // TODO Step 2: Create a custom type for  storing bonus points to customers using ConfigurationService
+        // TODO Step 2: Create a custom type for  storing bonus points for customers using ConfigurationService
         // You can use above localizedString for all name fields
         logger.info("Custom type with a custom field for bonus points created : " +
                 configurationService.createCustomType(

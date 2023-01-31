@@ -45,7 +45,7 @@ public class Task1a_CRUD {
         CustomerGroupService customerGroupService = new CustomerGroupService(apiRoot_poc);
 
         // Create a customer group
-        // TODO Strep 5: Create a customer group in CustomerGroupService.java
+        // TODO Step 5: Create a customer group in CustomerGroupService.java
         logger.info("Customer created: " +
                 customerGroupService.createCustomerGroup(
                                 customerGroupName,

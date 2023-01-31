@@ -25,7 +25,7 @@ public class Task1a_CRUD {
 
         // TODO Step 1: Provide names
         String customerGroupName = "coolbuyers";
-        String customerGroupKey = "coolbuyers-custom-group";
+        String customerGroupKey = "coolbuyers-customer-group";
         String customerEmail = "michael15@example.com";
         String customerPassword = "password";
         String customerKey = "customer-michael15";
