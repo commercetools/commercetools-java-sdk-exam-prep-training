@@ -1,0 +1,18 @@
+## mh-exam-prep-poc-admin
+
+mh-exam-prep-poc-admin.projectKey=
+mh-exam-prep-poc-admin.clientId=
+mh-exam-prep-poc-admin.clientSecret=
+mh-exam-prep-poc-admin.authUrl=
+mh-exam-prep-poc-admin.apiUrl=
+mh-exam-prep-poc-admin.scopes=
+
+## happy-garden-conc-product-read
+
+
+happy-garden-conc-product-read.projectKey=
+happy-garden-conc-product-read.clientId=
+happy-garden-conc-product-read.clientSecret=
+happy-garden-conc-product-read.authUrl=
+happy-garden-conc-product-read.apiUrl=
+happy-garden-conc-product-read.scopes=

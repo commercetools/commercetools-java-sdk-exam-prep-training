@@ -31,7 +31,7 @@ public class Task2a_CUSTOM_TYPES {
                 );
         ConfigurationService configurationService = new ConfigurationService(apiRoot_poc);
 
-        // TODO Step 1: Use ConfigurationService.java to check if custom type exists for storing customers' bonus points
+        // TODO Step 1: Use ConfigurationService.java to check if a custom type exists for storing customers' bonus points
         logger.info("Custom types for customizing customers: " +
                 configurationService.getCustomTypes()
                     .get()
@@ -56,7 +56,7 @@ public class Task2a_CUSTOM_TYPES {
                 ""
         );
 
-        // TODO Step 3: Provide a random number 1..100 in the Merchnat Center for your customer
+        // TODO Step 3: In the Merchnat Center, provide a random number 1..100 as bonus for your customer
 
         apiRoot_poc.close();
     }

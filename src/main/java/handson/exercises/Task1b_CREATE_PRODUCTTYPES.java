@@ -34,7 +34,9 @@ public class Task1b_CREATE_PRODUCTTYPES {
 
         // TODO Step 1: Provide credentials in dev.properties for conc-client
         // TODO Step 2: Provide prefix in APIHelper for conc-client
+
         Logger logger = LoggerFactory.getLogger(Task1b_CREATE_PRODUCTTYPES.class.getName());
+
         final ProjectApiRoot apiRoot_conc =
                     createApiClient(
                         ApiPrefixHelper.API_CONC_CLIENT_PREFIX.getPrefix()
@@ -43,6 +45,7 @@ public class Task1b_CREATE_PRODUCTTYPES {
                 createApiClient(
                         ApiPrefixHelper.API_POC_CLIENT_PREFIX.getPrefix()
                 );
+
         ProductTypeService productTypeService_Concept = new ProductTypeService(apiRoot_conc);
         ProductTypeService productTypeService_Poc = new ProductTypeService(apiRoot_poc);
 

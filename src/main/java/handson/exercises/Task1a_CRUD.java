@@ -25,7 +25,7 @@ public class Task1a_CRUD {
 
         // TODO Step 1: Provide names
         String customerGroupName = "coolbuyers";
-        String customerGroupKey = "coolbuyers-custom-group";
+        String customerGroupKey = "coolbuyers-customer-group";
         String customerEmail = "michael15@example.com";
         String customerPassword = "password";
         String customerKey = "customer-michael15";
@@ -37,6 +37,7 @@ public class Task1a_CRUD {
         // TODO Step 2: Provide credentials in dev.properties
         // TODO Step 3: Provide prefix in APIHelper
         // TODO Step 4: Check ClientService.java
+
         final ProjectApiRoot apiRoot_poc =
                 createApiClient(
                         ApiPrefixHelper.API_POC_CLIENT_PREFIX.getPrefix()
@@ -46,7 +47,7 @@ public class Task1a_CRUD {
 
         // Create a customer group
         // TODO Step 5: Create a customer group in CustomerGroupService.java
-        logger.info("Customer created: " +
+        logger.info("Customer group created: " +
                 customerGroupService.createCustomerGroup(
                                 customerGroupName,
                                 customerGroupKey

@@ -58,7 +58,7 @@ public class Task3b_CREATE_ORDER_GRAPHQL {
         // Log custom object
         logger.info("Custom Object retrieved: " + customObject.getValue().toString());
 
-        // TODO Now, improve the query with GraphQL
+        // TODO: Now, improve the query with GraphQL
 
         // TODO Step 1: Fetch customer bonus points, cart value, bonus points calculation schema
         // Single GraphQL query to fetch all the information you need to place an order
@@ -103,15 +103,15 @@ public class Task3b_CREATE_ORDER_GRAPHQL {
 
         int earnedBonusPoints = calculateBonusPoints(totolPrice,allCartValues);
         logger.info("Earned bonus points: " + earnedBonusPoints);
+        */
 
         // TODO Step 2:
         // Add custom line item in the cart for bonus points
         // Create order, update bonus points on customer
         //
         logger.info("Order Creation / Customer Bonus Points for customer : " +
-            ""
-        );*/
-
+                        ""
+        );
         // TODO Step 3
         // Check order (MC), Impex
 

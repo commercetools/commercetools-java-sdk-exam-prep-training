@@ -81,7 +81,7 @@ public class Task1b_CREATE_PRODUCTTYPES {
 
         // TODO
         // Other ideas?
-        //
+        // https://github.com/commercetools/commercetools-project-sync
         // Synching would have been easier, wouldn't it have been?
         //
         StringBuilder dockerRun = new StringBuilder();
