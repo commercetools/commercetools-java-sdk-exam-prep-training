@@ -35,6 +35,9 @@ public class Task1b_CREATE_PRODUCTTYPES {
         // TODO Step 1: Provide credentials in dev.properties for conc-client
         // TODO Step 2: Provide prefix in APIHelper for conc-client
         Logger logger = LoggerFactory.getLogger(Task1b_CREATE_PRODUCTTYPES.class.getName());
+
+        final String concProductTypeKey = "flowers-product-type";
+
         final ProjectApiRoot apiRoot_conc =
                     createApiClient(
                         ApiPrefixHelper.API_CONC_CLIENT_PREFIX.getPrefix()
@@ -61,15 +64,15 @@ public class Task1b_CREATE_PRODUCTTYPES {
                 )
         );
 
-        ProductType myRoses = productTypeService_Concept
-                .getProductTypes()
+        ProductType productType = productTypeService_Concept
+                .getProductTypeByKey(concProductTypeKey)
                 .get()
-                .getBody().getResults().get(0);
+                .getBody();
 
         // TODO Step 4: Write the transferProductType-method in ProductTypeService.class
-        // Assume 1 productType, 1 attribute
+
         logger.info("I've created the following product type in poc: " +
-                productTypeService_Poc.transferProductType(myRoses)
+                productTypeService_Poc.transferProductType(productType)
                     .get()
                     .getBody().getName()
         );
@@ -79,7 +82,7 @@ public class Task1b_CREATE_PRODUCTTYPES {
         apiRoot_poc.close();
 
 
-        // TODO
+        /*// TODO
         // Other ideas?
         // https://github.com/commercetools/commercetools-project-sync
         // Synching would have been easier, wouldn't it have been?
@@ -100,6 +103,6 @@ public class Task1b_CREATE_PRODUCTTYPES {
         Process process = Runtime.getRuntime().exec(dockerRun.toString());
         process.waitFor();
         logger.info(process.exitValue() + " ");
-
+        */
     }
 }

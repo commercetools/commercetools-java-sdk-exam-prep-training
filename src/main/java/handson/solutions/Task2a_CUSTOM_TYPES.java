@@ -48,8 +48,8 @@ public class Task2a_CUSTOM_TYPES {
         final LocalizedString localizedNameForBonuspoints = LocalizedStringBuilder.of()
                 .values(new HashMap<String, String>() {
                     {
-                        put("DE", "Bonuspunkte für Kunden");
-                        put("EN", "Bonus points on customers");
+                        put("de-DE", "Bonuspunkte für Kunden");
+                        put("en-US", "Bonus points on customers");
                     }
                 })
                 .build();
@@ -73,7 +73,7 @@ public class Task2a_CUSTOM_TYPES {
                         .getBody().getKey()
         );
 
-        // TODO Step 3: Provide a random number 1..100 in the Merchnat Center for your customer
+        // TODO Step 3: In the Merchnat Center, provide a random number 1..100 as bonus for your customer
 
         apiRoot_poc.close();
     }

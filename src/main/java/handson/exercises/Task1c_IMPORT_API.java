@@ -52,14 +52,8 @@ public class Task1c_IMPORT_API {
                         .get()
                         .getBody().getTotal()
         );
-        OperationStates states = apiRoot_poc_import
-                .importContainers()
-                .withImportContainerKeyValue(containerKey)
-                .importSummaries()
-                .get()
-                .execute()
-                .get()
-                .getBody().getStates();
+        OperationStates states = importService.getImportSummaryByContainer(containerKey)
+                .get().getBody().getStates();
 
         logger.info("Processing: {} Imported: {} Unresolved: {} ",
                 states.getProcessing(),

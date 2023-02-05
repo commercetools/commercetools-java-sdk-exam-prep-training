@@ -35,12 +35,12 @@ public class Task3b_CREATE_ORDER_GRAPHQL {
 
        // TODO Step 1: Provide cart and customer
         //
-        String cartId = "6750b132-07f7-4a68-8b47-bd99b132b57d";
+        String cartId = "e2d08cbf-fab7-4f90-bd19-15edfe650f22";
         String customerKey = "customer-michael15";
         String customObjectContainer = "Schemas";
         String customObjectKey = "bonusPointsCalculationSchema";
         String customerBonusFieldName = "bonus-points-custom-field";
-        String taxCategoryKey = "test-tax-category";
+        String taxCategoryKey = "standard-tax-category";
 
         // TODO Step 1: Customer wants to create an order, get all data to update their bonus points
         //

@@ -9,6 +9,7 @@ import io.vrap.rmf.base.client.ApiHttpResponse;
 
 import java.util.Arrays;
 import java.util.concurrent.CompletableFuture;
+import java.util.stream.Collectors;
 
 /**
 
@@ -29,24 +30,34 @@ public class ProductTypeService {
                         .execute();
     }
 
-    public CompletableFuture<ApiHttpResponse<ProductType>> transferProductType(ProductType productType) {
+    public CompletableFuture<ApiHttpResponse<ProductType>> getProductTypeByKey(final String key) {
+        return
+                apiRoot
+                        .productTypes()
+                        .withKey(key)
+                        .get()
+                        .execute();
+    }
+
+    public CompletableFuture<ApiHttpResponse<ProductType>> transferProductType(final ProductType productType) {
 
         return
                 apiRoot
                         .productTypes()
                         .post(ProductTypeDraftBuilder.of()
-                                .attributes(Arrays.asList(
-                                        AttributeDefinitionDraftBuilder.of()
-                                                .name(productType.getAttributes().get(0).getName())
-                                                .label(productType.getAttributes().get(0).getLabel())
-                                                .inputTip(productType.getAttributes().get(0).getInputTip())
-                                                .isRequired(productType.getAttributes().get(0).getIsRequired())
-                                                .isSearchable(productType.getAttributes().get(0).getIsSearchable())
-                                                .inputHint(productType.getAttributes().get(0).getInputHint())
-                                                .attributeConstraint(productType.getAttributes().get(0).getAttributeConstraint())
-                                                .type(productType.getAttributes().get(0).getType())
+                                .attributes(
+                                        productType.getAttributes().stream().map(attributeDefinition -> AttributeDefinitionDraftBuilder.of()
+                                                .name(attributeDefinition.getName())
+                                                .label(attributeDefinition.getLabel())
+                                                .inputTip(attributeDefinition.getInputTip())
+                                                .isRequired(attributeDefinition.getIsRequired())
+                                                .isSearchable(attributeDefinition.getIsSearchable())
+                                                .inputHint(attributeDefinition.getInputHint())
+                                                .attributeConstraint(attributeDefinition.getAttributeConstraint())
+                                                .type(attributeDefinition.getType())
                                                 .build()
-                                ))              // would have to stream and convert to list if more
+                                        ).collect(Collectors.toList())
+                                )              // would have to stream and convert to list if more
                                 .description(productType.getDescription())
                                 .key(productType.getKey())
                                 .name(productType.getName())

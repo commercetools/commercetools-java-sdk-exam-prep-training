@@ -35,7 +35,7 @@ public class Task3a_CREATE_CART {
         //
         logger.info("Cart created: " + customerService.getCustomerByKey(customerKey)
                 .thenComposeAsync(cartService::createCart)
-                .thenComposeAsync(cartApiHttpResponse -> cartService.addProductToCartBySkusAndChannel(cartApiHttpResponse,"tulip-seed-box"))
+                .thenComposeAsync(cartApiHttpResponse -> cartService.addProductToCartBySkusAndChannel(cartApiHttpResponse,"rose-flowers-box"))
                 .get().getBody().getId());
 
         apiRoot_poc.close();

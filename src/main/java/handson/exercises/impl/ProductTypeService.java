@@ -29,6 +29,15 @@ public class ProductTypeService {
                         .execute();
     }
 
+    public CompletableFuture<ApiHttpResponse<ProductType>> getProductTypeByKey(final String key) {
+        return
+                apiRoot
+                        .productTypes()
+                        .withKey(key)
+                        .get()
+                        .execute();
+    }
+
     public CompletableFuture<ApiHttpResponse<ProductType>> transferProductType(ProductType productType) {
 
         return

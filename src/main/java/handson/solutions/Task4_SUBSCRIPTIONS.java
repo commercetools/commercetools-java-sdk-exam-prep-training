@@ -1,9 +1,7 @@
 package handson.solutions;
 
 import com.commercetools.api.client.ProjectApiRoot;
-import com.commercetools.api.models.subscription.ChangeSubscriptionBuilder;
-import com.commercetools.api.models.subscription.SqsDestinationBuilder;
-import com.commercetools.api.models.subscription.SubscriptionDraftBuilder;
+import com.commercetools.api.models.subscription.*;
 import handson.solutions.impl.ApiPrefixHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,16 +45,22 @@ public class Task4_SUBSCRIPTIONS {
 //                                    .topic("training-subscription-sample")
 //                                    .build()
 //                                        // for AWS SQS Queue
+//                          //SQS Example with "Credentials" authentication mode
+//                            SqsDestinationBuilder.of()
+//                                .queueUrl("https://sqs.us-east-2.amazonaws.com/015253045234/training_customer_change_queue")
+//                                .region("us-east-2")
+//                                .accessKey("")
+//                                .accessSecret("")
+//                                .build()
                             SqsDestinationBuilder.of()
-                                .queueUrl("https://sqs.us-east-2.amazonaws.com/015253045234/training_customer_change_queue")
-                                .region("us-east-2")
-                                .accessKey("")
-                                .accessSecret("")
-                                .build()
+                                    .authenticationMode(AwsAuthenticationMode.IAM)
+                                    .queueUrl("https://sqs.us-east-2.amazonaws.com/015253045234/training_customer_change_queue")
+                                    .region("us-east-2")
+                                    .build()
                         )
                         .changes(
                             ChangeSubscriptionBuilder.of()
-                                .resourceTypeId("customer") // https://docs.commercetools.com/api/types#referencetype
+                                .resourceTypeId(ChangeSubscriptionResourceTypeId.CUSTOMER) // https://docs.commercetools.com/api/types#referencetype
                                 .build()
                         )
                         .build()

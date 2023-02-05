@@ -2,13 +2,12 @@ package handson.exercises;
 
 import com.commercetools.api.client.ProjectApiRoot;
 import com.commercetools.api.models.product.Product;
+import com.commercetools.api.models.product.ProductVariant;
 import com.commercetools.importapi.models.common.LocalizedStringBuilder;
 import com.commercetools.importapi.models.common.MoneyBuilder;
 import com.commercetools.importapi.models.common.ProductTypeKeyReferenceBuilder;
-import com.commercetools.importapi.models.productdrafts.PriceDraftImportBuilder;
-import com.commercetools.importapi.models.productdrafts.ProductDraftImport;
-import com.commercetools.importapi.models.productdrafts.ProductDraftImportBuilder;
-import com.commercetools.importapi.models.productdrafts.ProductVariantDraftImportBuilder;
+import com.commercetools.importapi.models.common.TaxCategoryKeyReferenceBuilder;
+import com.commercetools.importapi.models.productdrafts.*;
 import com.commercetools.importapi.models.productvariants.Attribute;
 import handson.exercises.impl.ApiPrefixHelper;
 import handson.exercises.impl.ImportService;
@@ -38,8 +37,10 @@ public class Task1d_IMPORT_PRODUCTS {
         // Learning Goals
         // Import API: Product Import
 
-        // TODO Step 1: Provide your container key
-        final String containerKey = "XX-exam-prep-product-data-container";
+        // TODO Step 1: Provide your container key, product type key, and tax category key
+        final String containerKey = "XX-exam-prep-product-data-container"; // to be created
+        final String concProductTypeKey = "flowers-product-type";
+        final String taxCategoryKey = "standard-tax-category";
 
         Logger logger = LoggerFactory.getLogger(Task1d_IMPORT_PRODUCTS.class.getName());
 
@@ -62,7 +63,6 @@ public class Task1d_IMPORT_PRODUCTS {
                 .getBody().getResults();
 
         // TODO Step 1: Import one product to poc
-        // ERROR
         //
         final ProductDraftImport productDraftImport = ProductDraftImportBuilder.of()
                 .key(products.get(0).getKey())
@@ -71,81 +71,27 @@ public class Task1d_IMPORT_PRODUCTS {
                                 .values(products.get(0).getMasterData().getCurrent().getDescription().values())
                                 .build()
                 )
-                .masterVariant(
-                        ProductVariantDraftImportBuilder.of()
-                            .key(products.get(0).getMasterData().getCurrent().getMasterVariant().getKey())
-                            .sku(products.get(0).getMasterData().getCurrent().getMasterVariant().getSku())
-                                .attributes(
-                                        Arrays.asList(
-                                                Attribute.textBuilder()
-                                                        .name(products.get(0).getMasterData().getCurrent().getMasterVariant().getAttributes().get(0).getName())
-                                                        .value(products.get(0).getMasterData().getCurrent().getMasterVariant().getAttributes().get(0).getValue().toString())
-                                                        .build(),
-                                                Attribute.numberBuilder()
-                                                        .name(products.get(0).getMasterData().getCurrent().getMasterVariant().getAttributes().get(1).getName())
-                                                        .value(Double.longBitsToDouble((Long)(products.get(0).getMasterData().getCurrent().getMasterVariant().getAttributes().get(1).getValue())))
-                                                        .build()
-                                        )
-                                )
-                            .prices(products.get(0).getMasterData().getCurrent().getMasterVariant().getPrices()
-                                    .stream()
-                                    .map(price -> PriceDraftImportBuilder.of()
-                                            .country(price.getCountry())
-                                            .value(MoneyBuilder.of()
-                                                    .centAmount(price.getValue().getCentAmount())
-                                                    .currencyCode(price.getValue().getCurrencyCode())
-                                                    .build()
-                                            )
-                                            .build()
-                                    )
-                                    .collect(Collectors.toList())
-                            )
-                            .build()
-                        )
-
-                .variants(ProductVariantDraftImportBuilder.of()
-                        .key(products.get(0).getMasterData().getCurrent().getVariants().get(0).getKey())
-                        .sku(products.get(0).getMasterData().getCurrent().getVariants().get(0).getSku())
-                        .attributes(
-                                Arrays.asList(
-                                        Attribute.textBuilder()
-                                                .name(products.get(0).getMasterData().getCurrent().getVariants().get(0).getAttributes().get(0).getName())
-                                                .value(products.get(0).getMasterData().getCurrent().getVariants().get(0).getAttributes().get(0).getValue().toString())
-                                                .build(),
-                                        Attribute.numberBuilder()
-                                                .name(products.get(0).getMasterData().getCurrent().getVariants().get(0).getAttributes().get(1).getName())
-                                                .value(Double.longBitsToDouble((Long)products.get(0).getMasterData().getCurrent().getVariants().get(0).getAttributes().get(1).getValue()))
-                                                .build()
-                                )
-                        )
-                        .prices(products.get(0).getMasterData().getCurrent().getVariants().get(0).getPrices()
-                                .stream()
-                                .map(price -> PriceDraftImportBuilder.of()
-                                        .country(price.getCountry())
-                                        .value(MoneyBuilder.of()
-                                                .centAmount(price.getValue().getCentAmount())
-                                                .currencyCode(price.getValue().getCurrencyCode())
-                                                .build()
-                                        )
-                                        .build()
-                                )
-                                .collect(Collectors.toList())
-                        )
-                        .build()
+                .masterVariant(createProductVariantDraftImport(products.get(0).getMasterData().getCurrent().getMasterVariant()))
+                .variants(products.get(0).getMasterData().getCurrent().getVariants()
+                        .stream().map(
+                                productVariant -> createProductVariantDraftImport(productVariant)
+                        ).collect(Collectors.toList())
                 )
-
-
                 .name(LocalizedStringBuilder.of()
                         .values(products.get(0).getMasterData().getCurrent().getName().values())
                         .build()
                 )
                 .productType(
                         ProductTypeKeyReferenceBuilder.of()
-                                .key("flowers-product-type")                // where to get from?
+                                .key(concProductTypeKey)                // where to get from?
                                 .build()
                 )
                 .slug(LocalizedStringBuilder.of()
                         .values(products.get(0).getMasterData().getCurrent().getSlug().values())
+                        .build()
+                )
+                .taxCategory(TaxCategoryKeyReferenceBuilder.of()
+                        .key(taxCategoryKey)
                         .build()
                 )
                 .publish(true)
@@ -158,5 +104,44 @@ public class Task1d_IMPORT_PRODUCTS {
 
         apiRoot_conc.close();
         apiRoot_poc_import.close();
+    }
+
+    private static ProductVariantDraftImport createProductVariantDraftImport(
+            final ProductVariant productVariant){
+        return ProductVariantDraftImportBuilder.of()
+                .key(productVariant.getKey())
+                .sku(productVariant.getSku())
+                .attributes(
+                        Arrays.asList(
+                                Attribute.textBuilder()
+                                        .name(productVariant.getAttributes().get(0).getName())
+                                        .value(productVariant.getAttributes().get(0).getValue().toString())
+                                        .build(),
+                                Attribute.numberBuilder()
+                                        .name(productVariant.getAttributes().get(1).getName())
+                                        .value(convertDouble(productVariant.getAttributes().get(1).getValue()))
+                                        .build()
+                        )
+                )
+                .prices(productVariant.getPrices()
+                        .stream()
+                        .map(price -> PriceDraftImportBuilder.of()
+                                .country(price.getCountry())
+                                .value(MoneyBuilder.of()
+                                        .centAmount(price.getValue().getCentAmount())
+                                        .currencyCode(price.getValue().getCurrencyCode())
+                                        .build()
+                                )
+                                .build()
+                        )
+                        .collect(Collectors.toList())
+                )
+                .build();
+    }
+    static double convertDouble(Object attributeValue){
+        if(attributeValue instanceof Long)
+            return ((Long) attributeValue).doubleValue();
+        else
+            return ((Double) attributeValue);
     }
 }

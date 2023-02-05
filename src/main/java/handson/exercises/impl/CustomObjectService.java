@@ -24,8 +24,7 @@ public class CustomObjectService {
 
     public CompletableFuture<ApiHttpResponse<CustomObject>> getCustomObject(
             String container,
-            String key
-    ) {
+            String key) {
         return
                 apiRoot
                         .customObjects()
@@ -35,17 +34,12 @@ public class CustomObjectService {
     }
 
 
-            public CompletableFuture<ApiHttpResponse<CustomObject>> createCustomObject(
+    public CompletableFuture<ApiHttpResponse<CustomObject>> createCustomObject(
             String container,
             String key,
-            JsonObject jsonData
-    ) throws JsonProcessingException {
-
+            JsonObject jsonData) throws JsonProcessingException {
         return
                 null;
     }
-
-
-
 
 }

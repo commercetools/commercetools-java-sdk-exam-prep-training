@@ -37,6 +37,8 @@ public class Task1b_CREATE_PRODUCTTYPES {
 
         Logger logger = LoggerFactory.getLogger(Task1b_CREATE_PRODUCTTYPES.class.getName());
 
+        final String concProductTypeKey = "flowers-product-type";
+
         final ProjectApiRoot apiRoot_conc =
                     createApiClient(
                         ApiPrefixHelper.API_CONC_CLIENT_PREFIX.getPrefix()
@@ -56,15 +58,15 @@ public class Task1b_CREATE_PRODUCTTYPES {
                 ""
         );
 
-        ProductType myRoses = productTypeService_Concept
-                .getProductTypes()
+        ProductType productType = productTypeService_Concept
+                .getProductTypeByKey(concProductTypeKey)
                 .get()
-                .getBody().getResults().get(0);
+                .getBody();
 
         // TODO Step 4: Write the transferProductType-method in ProductTypeService.class
-        // Assume 1 productType, 1 attribute
+
         logger.info("I've created the following product type in poc: " +
-                productTypeService_Poc.transferProductType(myRoses)
+                productTypeService_Poc.transferProductType(productType)
                     .get()
                     .getBody().getName()
         );

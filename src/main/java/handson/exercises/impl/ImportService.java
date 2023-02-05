@@ -5,6 +5,7 @@ import com.commercetools.importapi.models.importcontainers.ImportContainer;
 import com.commercetools.importapi.models.importcontainers.ImportContainerDraftBuilder;
 import com.commercetools.importapi.models.importrequests.ImportResponse;
 import com.commercetools.importapi.models.importrequests.ProductDraftImportRequestBuilder;
+import com.commercetools.importapi.models.importsummaries.ImportSummary;
 import com.commercetools.importapi.models.productdrafts.ProductDraftImport;
 import io.vrap.rmf.base.client.ApiHttpResponse;
 
@@ -37,5 +38,15 @@ public class ImportService {
 
         return
                 null;
+    }
+
+    public CompletableFuture<ApiHttpResponse<ImportSummary>> getImportSummaryByContainer(final String containerKey) {
+
+        return apiRoot
+                .importContainers()
+                .withImportContainerKeyValue(containerKey)
+                .importSummaries()
+                .get()
+                .execute();
     }
 }
