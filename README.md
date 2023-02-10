@@ -1,6 +1,6 @@
 # commercetools Java Developer SDKv2 Exam Prep Course
 
-These training exercises are for the commercetools Java developer certification exam prep course
+These training prep are for the commercetools Java developer certification exam prep course
 
 ## Prerequisites:
 

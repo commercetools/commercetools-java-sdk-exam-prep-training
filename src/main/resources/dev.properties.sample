@@ -1,4 +1,22 @@
-## mh-exam-prep-poc-admin
+## exam prep trial project admin api client - for practice
+
+exam-prep-project-admin.projectKey=
+exam-prep-project-admin.clientId=
+exam-prep-project-admin.clientSecret=
+exam-prep-project-admin.authUrl=
+exam-prep-project-admin.apiUrl=
+exam-prep-project-admin.scopes=
+
+# exam prep import source project read-only API client
+
+import-src-project-read.projectKey=
+import-src-project-read.clientId=
+import-src-project-read.clientSecret=
+import-src-project-read.authUrl=
+import-src-project-read.apiUrl=
+import-src-project-read.scopes=
+
+## exam prep poc admin - to be used in-class
 
 mh-exam-prep-poc-admin.projectKey=
 mh-exam-prep-poc-admin.clientId=
@@ -7,7 +25,7 @@ mh-exam-prep-poc-admin.authUrl=
 mh-exam-prep-poc-admin.apiUrl=
 mh-exam-prep-poc-admin.scopes=
 
-## happy-garden-conc-product-read
+## happy garden concept product read - don't edit
 
 happy-garden-conc-project-read.projectKey=happy-garden-concept-project
 happy-garden-conc-project-read.clientId=v3ikO7OjShI_ZDCaDxLlU4Hi
