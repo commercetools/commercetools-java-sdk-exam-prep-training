@@ -22,7 +22,7 @@ public class Task3b_CREATE_ORDER_GRAPHQL {
         // Create an Order
         // GraphQL queries
 
-        Logger logger = LoggerFactory.getLogger(Task4_SUBSCRIPTIONS.class.getName());
+        Logger logger = LoggerFactory.getLogger(Task2c_SUBSCRIPTIONS.class.getName());
 
         final ProjectApiRoot apiRoot_poc =
                 createApiClient(

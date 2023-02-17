@@ -44,8 +44,8 @@ public class Task2a_CUSTOM_TYPES {
         final LocalizedString localizedNameForBonuspoints = LocalizedStringBuilder.of()
                 .values(new HashMap<String, String>() {
                     {
-                        put("de-DE", "Bonuspunkte für Kunden");
-                        put("en-US", "Bonus points on customers");
+                        put("de", "Bonuspunkte");
+                        put("en", "Bonus points");
                     }
                 })
                 .build();

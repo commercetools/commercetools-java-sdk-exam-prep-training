@@ -4,6 +4,7 @@ import com.commercetools.api.client.ProjectApiRoot;
 import com.commercetools.api.models.common.LocalizedString;
 import com.commercetools.api.models.common.LocalizedStringBuilder;
 import com.commercetools.api.models.type.CustomFieldNumberType;
+import com.commercetools.api.models.type.CustomFieldStringType;
 import com.commercetools.api.models.type.FieldDefinitionBuilder;
 import com.commercetools.api.models.type.ResourceTypeId;
 import handson.solutions.impl.ApiPrefixHelper;
@@ -48,8 +49,8 @@ public class Task2a_CUSTOM_TYPES {
         final LocalizedString localizedNameForBonuspoints = LocalizedStringBuilder.of()
                 .values(new HashMap<String, String>() {
                     {
-                        put("de-DE", "Bonuspunkte für Kunden");
-                        put("en-US", "Bonus points on customers");
+                        put("en", "Bonus points");
+                        put("de", "Bonuspunkte");
                     }
                 })
                 .build();
@@ -58,11 +59,11 @@ public class Task2a_CUSTOM_TYPES {
         // You can use above localizedString for all name fields
         logger.info("Custom type with a custom field for bonus points created : " +
                 configurationService.createCustomType(
-                            "customer-bonuspoint-extension",
+                            "bonus-point-custom-type",
                             localizedNameForBonuspoints,
                             ResourceTypeId.CUSTOMER,
                             Arrays.asList(FieldDefinitionBuilder.of()
-                                                .name("bonus-points-custom-field")
+                                                .name("bonus-points")
                                                 .required(false)
                                                 .label(localizedNameForBonuspoints)
                                                 .type(CustomFieldNumberType.of())

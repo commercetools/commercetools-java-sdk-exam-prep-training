@@ -13,14 +13,14 @@ import static handson.solutions.impl.ClientService.createApiClient;
 import static handson.solutions.impl.ClientService.projectApiRoot;
 
 
-public class Task5_OPTIMIZATIONS {
+public class Task4_OPTIMIZATIONS {
 
     public static void main(String[] args) throws IOException, ExecutionException, InterruptedException {
 
         // Learning Goals
         // Bulk Download via continuations
 
-        Logger logger = LoggerFactory.getLogger(Task5_OPTIMIZATIONS.class.getName());
+        Logger logger = LoggerFactory.getLogger(Task4_OPTIMIZATIONS.class.getName());
 
         final ProjectApiRoot apiRoot_poc =
                 createApiClient(
