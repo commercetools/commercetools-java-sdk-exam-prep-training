@@ -95,7 +95,7 @@ public class Task3b_CREATE_ORDER_GRAPHQL {
         logger.info("Found current bonus Points: "
                 + oldBonusPoints
                 + " and the Cart Value: "
-                + totolPrice
+                + totolPrice / 100
         );
 
         // Find factor, addon

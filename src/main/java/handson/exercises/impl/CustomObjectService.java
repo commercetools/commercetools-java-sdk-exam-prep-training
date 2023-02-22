@@ -39,7 +39,13 @@ public class CustomObjectService {
             String key,
             JsonObject jsonData) throws JsonProcessingException {
         return
-                null;
+                apiRoot.customObjects()
+                        .post(CustomObjectDraftBuilder.of()
+                                .container(container)
+                                .key(key)
+                                .value(new ObjectMapper().readTree(jsonData.toString()))
+                                .build())
+                        .execute();
     }
 
 }

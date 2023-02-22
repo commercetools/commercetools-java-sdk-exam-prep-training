@@ -12,14 +12,14 @@ import java.util.concurrent.ExecutionException;
 import static handson.solutions.impl.ClientService.createApiClient;
 
 
-public class Task2c_SUBSCRIPTIONS {
+public class Task4_SUBSCRIPTIONS {
 
     public static void main(String[] args) throws IOException, ExecutionException, InterruptedException {
 
         // Learning Goals
         // Subscriptions
 
-        Logger logger = LoggerFactory.getLogger(Task2c_SUBSCRIPTIONS.class.getName());
+        Logger logger = LoggerFactory.getLogger(Task4_SUBSCRIPTIONS.class.getName());
 
         final ProjectApiRoot apiRoot_poc =
                 createApiClient(
