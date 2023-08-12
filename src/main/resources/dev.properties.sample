@@ -27,9 +27,9 @@ mh-exam-prep-poc-admin.scopes=
 
 ## happy garden concept product read - don't edit
 
-happy-garden-conc-project-read.projectKey=happy-garden-concept-project
-happy-garden-conc-project-read.clientId=v3ikO7OjShI_ZDCaDxLlU4Hi
-happy-garden-conc-project-read.clientSecret=jo3ZzmOInBQKZ2purGhFJmIDWQUNYh_u
+happy-garden-conc-project-read.projectKey=happy-gardens-concept-project
+happy-garden-conc-project-read.clientId=zTubROv3vGSWnGYgUuRyRW-9
+happy-garden-conc-project-read.clientSecret=FDu2aV0h9Cn7MeCFFA1kXD5-IzlorTVe
 happy-garden-conc-project-read.authUrl=https://auth.europe-west1.gcp.commercetools.com
 happy-garden-conc-project-read.apiUrl=https://api.europe-west1.gcp.commercetools.com
-happy-garden-conc-project-read.scopes=view_shipping_methods:happy-garden-concept-project view_products:happy-garden-concept-project view_customers:happy-garden-concept-project view_types:happy-garden-concept-project view_tax_categories:happy-garden-concept-project view_categories:happy-garden-concept-project view_customer_groups:happy-garden-concept-project view_attribute_groups:happy-garden-concept-project
+happy-garden-conc-project-read.scopes=view_attribute_groups:happy-gardens-concept-project view_products:happy-gardens-concept-project view_standalone_prices:happy-gardens-concept-project view_tax_categories:happy-gardens-concept-project view_categories:happy-gardens-concept-project view_customer_groups:happy-gardens-concept-project view_project_settings:happy-gardens-concept-project view_shipping_methods:happy-gardens-concept-project view_customers:happy-gardens-concept-project
