@@ -25,9 +25,9 @@ public class ClientService {
 
         final Properties prop = new Properties();
         prop.load(ClientService.class.getResourceAsStream("/dev.properties"));
-        String clientId = prop.getProperty(prefix + "clientId");
-        String clientSecret = prop.getProperty(prefix + "clientSecret");
-        String projectKey = prop.getProperty(prefix + "projectKey");
+        String clientId = prop.getProperty(prefix + ".clientId");
+        String clientSecret = prop.getProperty(prefix + ".clientSecret");
+        String projectKey = prop.getProperty(prefix + ".projectKey");
 
         projectApiRoot = ApiRootBuilder.of()
                 .defaultClient(
@@ -56,7 +56,7 @@ public class ClientService {
         final Properties prop = new Properties();
         prop.load(ClientService.class.getResourceAsStream("/dev.properties"));
 
-        return prop.getProperty(prefix + "clientId");
+        return prop.getProperty(prefix + ".clientId");
     }
 
 
@@ -65,7 +65,7 @@ public class ClientService {
         final Properties prop = new Properties();
         prop.load(ClientService.class.getResourceAsStream("/dev.properties"));
 
-        return prop.getProperty(prefix + "clientSecret");
+        return prop.getProperty(prefix + ".clientSecret");
     }
 
 
@@ -74,7 +74,7 @@ public class ClientService {
         final Properties prop = new Properties();
         prop.load(ClientService.class.getResourceAsStream("/dev.properties"));
 
-        return prop.getProperty(prefix + "storeKey");
+        return prop.getProperty(prefix + ".storeKey");
     }
 
 
@@ -83,7 +83,7 @@ public class ClientService {
         final Properties prop = new Properties();
         prop.load(ClientService.class.getResourceAsStream("/dev.properties"));
 
-        return prop.getProperty(prefix + "customerEmail");
+        return prop.getProperty(prefix + ".customerEmail");
     }
 
 
@@ -95,19 +95,19 @@ public class ClientService {
 
         final Properties prop = new Properties();
         prop.load(ClientService.class.getResourceAsStream("/dev.properties"));
-        String clientId = prop.getProperty(prefix + "clientId");
-        String clientSecret = prop.getProperty(prefix + "clientSecret");
-        String projectKey = prop.getProperty(prefix + "projectKey");
+        String clientId = prop.getProperty(prefix + ".clientId");
+        String clientSecret = prop.getProperty(prefix + ".clientSecret");
+        String projectKey = prop.getProperty(prefix + ".projectKey");
 
         importApiRoot = ImportApiRootBuilder.of().defaultClient(
-                ClientCredentials.of()
-                        .withClientId(clientId)
-                        .withClientSecret(clientSecret)
-                        .build(),
-                com.commercetools.importapi.defaultconfig.ServiceRegion.GCP_EUROPE_WEST1.getOAuthTokenUrl(),
-                com.commercetools.importapi.defaultconfig.ServiceRegion.GCP_EUROPE_WEST1.getApiUrl()
-            )
-            .build(projectKey);
+                        ClientCredentials.of()
+                                .withClientId(clientId)
+                                .withClientSecret(clientSecret)
+                                .build(),
+                        com.commercetools.importapi.defaultconfig.ServiceRegion.GCP_EUROPE_WEST1.getOAuthTokenUrl(),
+                        com.commercetools.importapi.defaultconfig.ServiceRegion.GCP_EUROPE_WEST1.getApiUrl()
+                )
+                .build(projectKey);
 
         return importApiRoot;
     }
@@ -117,14 +117,14 @@ public class ClientService {
 
         final Properties prop = new Properties();
         prop.load(ClientService.class.getResourceAsStream("/dev.properties"));
-        String projectKey = prop.getProperty(prefix + "projectKey");
-        String customerEmail = prop.getProperty(prefix + "customerEmail");
-        String customerPassword = prop.getProperty(prefix + "customerPassword");
-        String clientId = prop.getProperty(prefix + "clientId");
-        String clientSecret = prop.getProperty(prefix + "clientSecret");
+        String projectKey = prop.getProperty(prefix + ".projectKey");
+        String customerEmail = prop.getProperty(prefix + ".customerEmail");
+        String customerPassword = prop.getProperty(prefix + ".customerPassword");
+        String clientId = prop.getProperty(prefix + ".clientId");
+        String clientSecret = prop.getProperty(prefix + ".clientSecret");
 
         return ApiRootBuilder.of().defaultClient(
-                     ServiceRegion.GCP_EUROPE_WEST1.getApiUrl()
+                        ServiceRegion.GCP_EUROPE_WEST1.getApiUrl()
                 )
                 .withGlobalCustomerPasswordFlow(
                         ClientCredentials.of()
@@ -133,42 +133,17 @@ public class ClientService {
                                 .build(),
                         customerEmail,
                         customerPassword,
-            ServiceRegion.GCP_EUROPE_WEST1.getAuthUrl() + "/oauth/" + projectKey + "/customers/token"
+                        ServiceRegion.GCP_EUROPE_WEST1.getAuthUrl() + "/oauth/" + projectKey + "/customers/token"
                 )
                 .build(projectKey);
     }
-
-    public static ProjectApiRoot createStoreMeApiClient(final String prefix) throws IOException {
-
-        final Properties prop = new Properties();
-        prop.load(ClientService.class.getResourceAsStream("/dev.properties"));
-        String projectKey = prop.getProperty(prefix + "projectKey");
-        String storeKey = prop.getProperty(prefix + "storeKey");
-        String storeCustomerEmail = prop.getProperty(prefix + "customerEmail");
-        String storeCustomerPassword = prop.getProperty(prefix + "customerPassword");
-        String clientId = prop.getProperty(prefix + "clientId");
-        String clientSecret = prop.getProperty(prefix + "clientSecret");
-
-        return ApiRootBuilder.of().defaultClient(ServiceRegion.GCP_EUROPE_WEST1.getApiUrl())
-                .withGlobalCustomerPasswordFlow(
-                        ClientCredentials.of()
-                                .withClientId(clientId)
-                                .withClientSecret(clientSecret)
-                                .build(),
-                        storeCustomerEmail,
-                        storeCustomerPassword,
-            ServiceRegion.GCP_EUROPE_WEST1.getAuthUrl() + "/oauth/" + projectKey + "/in-store/key=" + storeKey + "/customers/token"
-                )
-                .build(projectKey);
-    }
-
 
     public static AuthenticationToken getTokenForClientCredentialsFlow(final String prefix) throws IOException {
 
         final Properties prop = new Properties();
         prop.load(ClientService.class.getResourceAsStream("/dev.properties"));
-        String clientId = prop.getProperty(prefix + "clientId");
-        String clientSecret = prop.getProperty(prefix + "clientSecret");
+        String clientId = prop.getProperty(prefix + ".clientId");
+        String clientSecret = prop.getProperty(prefix + ".clientSecret");
         AuthenticationToken token = null;
         try (final ClientCredentialsTokenSupplier clientCredentialsTokenSupplier = new ClientCredentialsTokenSupplier(
                 clientId,

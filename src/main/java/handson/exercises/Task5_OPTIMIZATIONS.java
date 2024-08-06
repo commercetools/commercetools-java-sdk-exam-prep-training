@@ -2,15 +2,12 @@ package handson.exercises;
 
 import com.commercetools.api.client.ProjectApiRoot;
 import com.commercetools.api.models.order.OrderPagedQueryResponse;
-import handson.exercises.impl.ApiPrefixHelper;
+import static handson.exercises.impl.ClientService.createApiClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;
-
-import static handson.solutions.impl.ClientService.createApiClient;
-import static handson.solutions.impl.ClientService.projectApiRoot;
 
 
 public class Task5_OPTIMIZATIONS {
@@ -20,12 +17,9 @@ public class Task5_OPTIMIZATIONS {
         // Learning Goals
         // Bulk Download via continuations
 
-        Logger logger = LoggerFactory.getLogger(Task5_OPTIMIZATIONS.class.getName());
+        Logger logger = LoggerFactory.getLogger("commercetools");
 
-        final ProjectApiRoot apiRoot_poc =
-                createApiClient(
-                        ApiPrefixHelper.API_POC_CLIENT_PREFIX.getPrefix()
-                );
+        final ProjectApiRoot apiRoot = createApiClient("poc");
 
         // TODO Step 1: Provide date for orders to be downloaded
         //
@@ -37,7 +31,7 @@ public class Task5_OPTIMIZATIONS {
         final int PAGE_SIZE = 1;
         boolean lastPage = false;
 
-        String lastId = projectApiRoot
+        String lastId = apiRoot
                 .orders()
                 .get()
                 .addWhere("createdAt > \"" + orderDate + "\"")
@@ -55,7 +49,7 @@ public class Task5_OPTIMIZATIONS {
         //
         while(!lastPage) {
            OrderPagedQueryResponse orderPagedQueryResponse =
-                    apiRoot_poc
+                    apiRoot
                             .orders()
                             .get()
 
@@ -89,6 +83,6 @@ public class Task5_OPTIMIZATIONS {
             lastPage = !(size == PAGE_SIZE);
         }
 
-        apiRoot_poc.close();
+        apiRoot.close();
     }
 }

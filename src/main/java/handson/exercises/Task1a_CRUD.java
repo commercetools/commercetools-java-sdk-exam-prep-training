@@ -1,16 +1,14 @@
 package handson.exercises;
 
 import com.commercetools.api.client.ProjectApiRoot;
-import handson.exercises.impl.ApiPrefixHelper;
 import handson.exercises.impl.CustomerGroupService;
 import handson.exercises.impl.CustomerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import static prep.impl.ClientService.createApiClient;
 
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;
-
-import static handson.solutions.impl.ClientService.createApiClient;
 
 
 public class Task1a_CRUD {
@@ -21,7 +19,7 @@ public class Task1a_CRUD {
         // Api Clients
         // Get, Post
 
-        Logger logger = LoggerFactory.getLogger(Task1a_CRUD.class.getName());
+        Logger logger = LoggerFactory.getLogger("commercetools");
 
         // TODO Step 1: Provide names
         String customerGroupName = "coolbuyers";
@@ -38,12 +36,9 @@ public class Task1a_CRUD {
         // TODO Step 3: Provide prefix in APIHelper
         // TODO Step 4: Check ClientService.java
 
-        final ProjectApiRoot apiRoot_poc =
-                createApiClient(
-                        ApiPrefixHelper.API_POC_CLIENT_PREFIX.getPrefix()
-                );
-        CustomerService customerService = new CustomerService(apiRoot_poc);
-        CustomerGroupService customerGroupService = new CustomerGroupService(apiRoot_poc);
+        final ProjectApiRoot apiRoot = createApiClient("poc");
+        CustomerService customerService = new CustomerService(apiRoot);
+        CustomerGroupService customerGroupService = new CustomerGroupService(apiRoot);
 
         // Create a customer group
         // TODO Step 5: Create a customer group in CustomerGroupService.java
@@ -65,6 +60,6 @@ public class Task1a_CRUD {
                 ""
         );
 
-        apiRoot_poc.close();
+        apiRoot.close();
     }
 }

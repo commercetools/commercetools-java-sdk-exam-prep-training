@@ -12,56 +12,30 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.concurrent.ExecutionException;
 
-import static handson.solutions.impl.ClientService.createApiClient;
-
 public class Task3b_CREATE_ORDER_GRAPHQL {
 
     public static void main(String[] args) throws IOException, ExecutionException, InterruptedException {
 
-        // Learning Goals
-        // Create an Order
-        // GraphQL queries
+        Logger logger = LoggerFactory.getLogger("commercetools");
 
-        Logger logger = LoggerFactory.getLogger(Task4_SUBSCRIPTIONS.class.getName());
+        final ProjectApiRoot apiRoot = ClientService.createApiClient("ctp");
+        CustomerService customerService = new CustomerService(apiRoot);
+        CartService cartService = new CartService(apiRoot);
+        ConfigurationService configurationService = new ConfigurationService(apiRoot);
+        OrderService orderService = new OrderService(apiRoot);
 
-        final ProjectApiRoot apiRoot_poc =
-                createApiClient(
-                        ApiPrefixHelper.API_POC_CLIENT_PREFIX.getPrefix()
-                );
-        CustomerService customerService = new CustomerService(apiRoot_poc);
-        CartService cartService = new CartService(apiRoot_poc);
-        CustomObjectService customObjectService = new CustomObjectService(apiRoot_poc);
-        OrderService orderService = new OrderService(apiRoot_poc);
-
-       // TODO Step 1: Provide cart and customer
-        //
-        String cartId = "e2d08cbf-fab7-4f90-bd19-15edfe650f22";
-        String customerKey = "customer-michael15";
+       // Provide cart and customer
+        String cartId = "";
+        String customerKey = "nd-customer";
         String customObjectContainer = "Schemas";
         String customObjectKey = "bonusPointsCalculationSchema";
         String customerBonusFieldName = "bonus-points-custom-field";
-        String taxCategoryKey = "standard-tax-category";
+        String taxCategoryKey = "standard-tax";
 
-        // TODO Step 1: Customer wants to create an order, get all data to update their bonus points
-        //
-        /*final Cart cart = cartService.getCartById(cartId)
-                .get()
-                .getBody();
-        final Customer customer = customerService.getCustomerByKey(customerKey)
-                .get()
-                .getBody();
-        final CustomObject customObject = customObjectService.getCustomObject(customObjectContainer, customObjectKey)
-                .get()
-                .getBody();
-
-        // Log custom object
-        logger.info("Custom Object retrieved: " + customObject.getValue().toString());*/
-
-        // Now, improve the query with GraphQL
-
-        // TODO Step 1: Fetch customer bonus points, cart value, bonus points calculation schema
+        // Customer wants to create an order, get all data to update their bonus points
+        // Fetch customer bonus points, cart value, bonus points calculation schema
         // Single GraphQL query to fetch all the information you need to place an order
-        final GraphQLResponse graphqQLCartCustomerCustomObjectResponse = apiRoot_poc
+        final GraphQLResponse graphqQLCartCustomerCustomObjectResponse = apiRoot
                 .graphql()
                 .post(
                         GraphQLRequestBuilder.of()
@@ -79,9 +53,9 @@ public class Task3b_CREATE_ORDER_GRAPHQL {
                 .getBody();
         final JSONObject data = new JSONObject(graphqQLCartCustomerCustomObjectResponse).getJSONObject("data");
 
-        final JSONObject allCartValues = data.getJSONObject("customObjects").getJSONArray("results").getJSONObject(0).getJSONObject("value");
+        final JSONObject bonusSchema = data.getJSONObject("customObjects").getJSONArray("results").getJSONObject(0).getJSONObject("value");
 
-        final int oldBonusPoints = (int) data.getJSONObject("customer")
+        final int currentBonusPoints = (int) data.getJSONObject("customer")
                 .getJSONObject("custom")
                 .getJSONArray("customFieldsRaw")
                 .getJSONObject(0)
@@ -92,7 +66,7 @@ public class Task3b_CREATE_ORDER_GRAPHQL {
                 .get("centAmount");
 
         logger.info("Found current bonus Points: "
-                + oldBonusPoints
+                + currentBonusPoints
                 + " and the Cart Value: "
                 + totolPrice
         );
@@ -100,10 +74,9 @@ public class Task3b_CREATE_ORDER_GRAPHQL {
         // Find factor, addon
         // Do some maths to calculate the bonus points
 
-        int earnedBonusPoints = calculateBonusPoints(totolPrice,allCartValues);
-        logger.info("Earned bonus points: " + earnedBonusPoints);
+        int newBonusPoints = calculateBonusPoints(totolPrice, bonusSchema);
+        logger.info("Earned bonus points: " + newBonusPoints);
 
-        // TODO Step 2:
         // Create order, set custom line item on cart, change bonus points on customer
         //
         logger.info("Order Creation / Customer Bonus Points for customer : " +
@@ -111,7 +84,7 @@ public class Task3b_CREATE_ORDER_GRAPHQL {
                 .thenComposeAsync(cartApiHttpResponse ->
                                 cartService.addCustomLineItem(
                                         cartApiHttpResponse,
-                                        "Bonus points earned " + earnedBonusPoints,
+                                        "Bonus points earned " + newBonusPoints,
                                         0L,
                                         "bonus-points-custom-line-item",
                                         taxCategoryKey))
@@ -121,27 +94,26 @@ public class Task3b_CREATE_ORDER_GRAPHQL {
                         customerService.setCustomFieldValue(
                                 customerApiHttpResponse,
                                 customerBonusFieldName,
-                                oldBonusPoints + earnedBonusPoints
+                                currentBonusPoints + newBonusPoints
                         ))
                         .get()
                         .get()
                         .getBody().getKey()
         );
 
-        // TODO Step 3
         // Check order (MC), Impex
 
-        apiRoot_poc.close();
+        apiRoot.close();
     }
 
     private static int calculateBonusPoints(
             final int cartValue,
-            final JSONObject allCartValues
+            final JSONObject bonusSchema
         ) {
-            Iterator<String> keys = allCartValues.keys();
+            Iterator<String> keys = bonusSchema.keys();
             while (keys.hasNext()){
                 String key = keys.next();
-                JSONObject bonusPointCalculator = allCartValues.getJSONObject(key);
+                JSONObject bonusPointCalculator = bonusSchema.getJSONObject(key);
                 if(cartValue >= Integer.parseInt(key) && cartValue <= bonusPointCalculator.getInt("maxCartValue")){
                     int factor = bonusPointCalculator.getInt("factor");
                     int addon = bonusPointCalculator.getInt("addon");

@@ -38,7 +38,7 @@ public class ProductTypeService {
                         .execute();
     }
 
-    public CompletableFuture<ApiHttpResponse<ProductType>> transferProductType(ProductType productType) {
+    public CompletableFuture<ApiHttpResponse<ProductType>> replicateProductType(ProductType productType) {
 
         return
                 null;

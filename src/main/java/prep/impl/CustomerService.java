@@ -48,8 +48,8 @@ public class CustomerService {
 
 
     public CompletableFuture<ApiHttpResponse<Customer>> assignCustomerToCustomerGroup(
-            final ApiHttpResponse<Customer> customerApiHttpResponse,
-            final ApiHttpResponse<CustomerGroup> customerGroupApiHttpResponse)
+            final String customerKey,
+            final String customerGroupKey)
     {
         return
                 null;

@@ -3,7 +3,7 @@ package handson.exercises;
 import com.commercetools.api.client.ProjectApiRoot;
 import com.commercetools.api.models.common.LocalizedString;
 import com.commercetools.api.models.common.LocalizedStringBuilder;
-import handson.exercises.impl.ApiPrefixHelper;
+import static handson.exercises.impl.ClientService.createApiClient;
 import handson.exercises.impl.ConfigurationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,8 +11,6 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.concurrent.ExecutionException;
-
-import static handson.solutions.impl.ClientService.createApiClient;
 
 
 public class Task2a_CUSTOM_TYPES {
@@ -23,13 +21,10 @@ public class Task2a_CUSTOM_TYPES {
         // Get Query
         // Custom Types
 
-        Logger logger = LoggerFactory.getLogger(Task2a_CUSTOM_TYPES.class.getName());
+        Logger logger = LoggerFactory.getLogger("commercetools");
 
-        final ProjectApiRoot apiRoot_poc =
-                createApiClient(
-                        ApiPrefixHelper.API_POC_CLIENT_PREFIX.getPrefix()
-                );
-        ConfigurationService configurationService = new ConfigurationService(apiRoot_poc);
+        final ProjectApiRoot apiRoot = createApiClient("poc");
+        ConfigurationService configurationService = new ConfigurationService(apiRoot);
 
         // TODO Step 1: Use ConfigurationService.java to check if a custom type exists for storing customers' bonus points
         logger.info("Custom types for customizing customers: " +
@@ -58,6 +53,6 @@ public class Task2a_CUSTOM_TYPES {
 
         // TODO Step 3: In the Merchnat Center, provide a random number 1..100 as bonus for your customer
 
-        apiRoot_poc.close();
+        apiRoot.close();
     }
 }

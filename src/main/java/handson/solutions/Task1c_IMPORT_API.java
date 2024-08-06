@@ -1,42 +1,30 @@
 package handson.solutions;
 
 import com.commercetools.importapi.client.ProjectApiRoot;
-import com.commercetools.importapi.models.importsummaries.ImportSummary;
 import com.commercetools.importapi.models.importsummaries.OperationStates;
-import handson.solutions.impl.ApiPrefixHelper;
 import handson.solutions.impl.ImportService;
+import static handson.solutions.impl.ClientService.createImportApiClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 
-import static handson.solutions.impl.ClientService.createImportApiClient;
+
 
 
 public class Task1c_IMPORT_API {
 
     public static void main(String[] args) throws IOException, ExecutionException, InterruptedException {
 
-        // Learning Goals
-        // Import API: Import Containers
-        // Import API: Logging states
+        Logger logger = LoggerFactory.getLogger("commercetools");
 
-        Logger logger = LoggerFactory.getLogger(Task1c_IMPORT_API.class.getName());
+        final String containerKey = "nd-product-data-container";
 
-        // TODO Step 1: Provide your container key
-        //
-        final String containerKey = "MH-exam-prep-product-data-container";
+        final ProjectApiRoot apiRoot = createImportApiClient("import");
+        ImportService importService = new ImportService(apiRoot);
 
-        // Create an admin import api client for your project
-        // Use ClientService.class
-
-        final ProjectApiRoot apiRoot_poc_import =
-                createImportApiClient(
-                        ApiPrefixHelper.API_POC_CLIENT_PREFIX.getPrefix()
-                );
-        ImportService importService = new ImportService(apiRoot_poc_import);
-
+        //Create a new Import Container
         logger.info("I've created the following Import Container for poc: " +
                 importService.createImportContainer(containerKey)
                     .get()
@@ -46,14 +34,13 @@ public class Task1c_IMPORT_API {
         // Prepare for logging
         //
         logger.info("Total containers in our project: {}",
-                apiRoot_poc_import
+                apiRoot
                         .importContainers()
                         .get()
                         .execute()
                         .get()
                         .getBody().getTotal()
         );
-
 
         OperationStates states = importService.getImportSummaryByContainer(containerKey)
                 .get().getBody().getStates();
@@ -64,7 +51,6 @@ public class Task1c_IMPORT_API {
                         states.getUnresolved()
                 );
 
-        apiRoot_poc_import.close();
-
+        apiRoot.close();
     }
 }

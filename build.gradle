@@ -20,9 +20,9 @@ plugins {
 
 ext {
     versions = [
-        commercetools: "12.0.0",
-        slf4j: "1.7.32",
-        logback: "1.2.5",
+        commercetools: "17.14.0",
+        slf4j: "2.0.13",
+        logback: "1.4.12",
     ]
 }
 
@@ -45,8 +45,7 @@ dependencies {
     implementation "com.commercetools.sdk:commercetools-http-client:${versions.commercetools}"
     implementation "com.commercetools.sdk:commercetools-sdk-java-api:${versions.commercetools}"
     implementation "com.commercetools.sdk:commercetools-sdk-java-importapi:${versions.commercetools}"
-    implementation "com.commercetools.sdk:commercetools-sdk-java-ml:${versions.commercetools}"
-    implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.4'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.4.1'
     implementation "org.slf4j:slf4j-api:${versions.slf4j}"
     implementation "ch.qos.logback:logback-classic:${versions.logback}"
     implementation group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
@@ -58,7 +57,7 @@ dependencies {
     // implementation 'com.commercetools.sdk.jvm.core:commercetools-models:1.53.0'
     // implementation 'com.commercetools.sdk.jvm.core:commercetools-java-client:1.53.0'
 
-    implementation group: 'org.json', name: 'json', version: '20200518'
+    implementation group: 'org.json', name: 'json', version: '20231013'
     implementation 'javax.json:javax.json-api:1.1.4'
     implementation 'org.glassfish:javax.json:1.1.4'
 
