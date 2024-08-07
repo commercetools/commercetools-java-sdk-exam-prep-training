@@ -10,9 +10,6 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 
-
-
-
 public class Task1a_CRUD {
 
     public static void main(String[] args) throws IOException, ExecutionException, InterruptedException {
@@ -57,9 +54,7 @@ public class Task1a_CRUD {
                         .thenComposeAsync(customerService::verifyEmail)
                         .thenCombineAsync(customerGroupService.getCustomerGroupByKey(customerGroupKey),
                                 customerService::assignCustomerToCustomerGroup)
-                        .get()
-                        .get()
-                        .getBody().getKey()
+                        .get().get().getBody().getId()
         );
 
         apiRoot.close();
