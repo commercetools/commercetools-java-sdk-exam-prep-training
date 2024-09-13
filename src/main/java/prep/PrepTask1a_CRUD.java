@@ -2,7 +2,6 @@ package prep;
 
 import com.commercetools.api.client.ProjectApiRoot;
 import prep.impl.CustomerService;
-import prep.impl.ApiPrefixHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,41 +19,31 @@ public class PrepTask1a_CRUD {
         // Api Clients
         // Get, Post
 
-        Logger logger = LoggerFactory.getLogger(PrepTask1a_CRUD.class.getName());
+        Logger logger = LoggerFactory.getLogger("commercetools");
 
         // TODO Step 1: Create an admin api client for your own project
         // TODO Step 2: Provide credentials in dev.properties
-        // TODO Step 3: Provide prefix in APIHelper
-        // TODO Step 4: Check ClientService.java
-        // TODO Step 5: Create a new customer.
-        // TODO Step 6: Update the customer's billing address.
-        // TODO Step 7: Create a customer group.
-        // TODO Step 8: Assign the customer to the customer group.
-        // TODO Step 9: Delete the customer.
-        // TODO Step 10: Create a tax category.
-        // TODO Step 11: Create a few product categories.
-        // TODO Step 12: Query the categories by key.
+        // TODO Step 4: Check impl/ClientService and create an apiRoot
 
+        final ProjectApiRoot apiRoot = createApiClient("ctp");
 
-        final ProjectApiRoot apiRoot_poc =
-                createApiClient(
-                        ApiPrefixHelper.API_POC_CLIENT_PREFIX.getPrefix()
-                );
+        // TODO Step 5: Query project
 
-        CustomerService customerService = new CustomerService(apiRoot_poc);
+        // TODO Step 6: Query tax categories
 
-        logger.info("TODO List: Create a new customer.\n" +
-                "Update the customer's billing address.\n" +
-                "Create a customer group.\n" +
-                "Assign the customer to the customer group.\n" +
-                "Delete the customer.\n" +
-                "Create a tax category.\n" +
-                "Create a few product categories.\n" +
-                "Query the categories by key.\n");
+        // TODO Step 7: Get a tax category by key
+
+        // TODO Step 8: Create a new customer
+
+        CustomerService customerService = new CustomerService(apiRoot);
 
 //        logger.info("Create sign up completed."  +
 //                customerService.createCustomer("","","","","",""));
 
-        apiRoot_poc.close();
+        // TODO Step 9: Create a customer group
+
+        // TODO Step 10: Assign the customer to the customer group
+
+        apiRoot.close();
     }
 }

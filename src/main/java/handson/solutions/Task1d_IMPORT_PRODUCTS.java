@@ -9,9 +9,10 @@ import com.commercetools.importapi.models.common.ProductTypeKeyReferenceBuilder;
 import com.commercetools.importapi.models.common.TaxCategoryKeyReferenceBuilder;
 import com.commercetools.importapi.models.productdrafts.*;
 import com.commercetools.importapi.models.productvariants.Attribute;
-import handson.solutions.impl.ApiPrefixHelper;
 import handson.solutions.impl.ImportService;
 import handson.solutions.impl.ProductService;
+import handson.solutions.impl.ClientService;
+import handson.solutions.impl.ProductTypeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,49 +22,33 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
-import static handson.solutions.impl.ClientService.createApiClient;
-import static handson.solutions.impl.ClientService.createImportApiClient;
-
 
 public class Task1d_IMPORT_PRODUCTS {
 
-    // TODO
-    // Fix Error
-    // Import attributes
-    // Get the product type key
-
     public static void main(String[] args) throws IOException, ExecutionException, InterruptedException {
 
-        // Learning Goals
-        // Import API: Product Import
+        final String containerKey = "nd-product-data-container"; // to be created
+        final String productTypeKey = "flowers-product-type";
+        final String taxCategoryKey = "standard-tax";
 
-        // TODO Step 1: Provide your container key, product type key, and tax category key
-        final String containerKey = "MH-exam-prep-product-data-container"; // to be created
-        final String concProductTypeKey = "flowers-product-type";
-        final String taxCategoryKey = "standard-tax-category";
+        Logger logger = LoggerFactory.getLogger("commercetools");
 
-        Logger logger = LoggerFactory.getLogger(Task1d_IMPORT_PRODUCTS.class.getName());
+        final ProjectApiRoot apiRoot_src = ClientService.createApiClient("happy-garden-src-project-read");
+        ProductService productService_Source = new ProductService(apiRoot_src);
+        ProductTypeService productTypeService_Source = new ProductTypeService(apiRoot_src);
 
-        final ProjectApiRoot apiRoot_conc =
-                createApiClient(
-                        ApiPrefixHelper.API_CONC_CLIENT_PREFIX.getPrefix()
-                );
         final com.commercetools.importapi.client.ProjectApiRoot
-            apiRoot_poc_import =
-                createImportApiClient(
-                        ApiPrefixHelper.API_POC_CLIENT_PREFIX.getPrefix()
-                );
-        ProductService productService = new ProductService(apiRoot_conc);
-        ImportService importService = new ImportService(apiRoot_poc_import);
+            apiRoot = ClientService.createImportApiClient("import");
+        ImportService importService = new ImportService(apiRoot);
 
-        // Get the products from conc
-        final List<Product> products =
-                productService.getProducts()
+        final List<Product> products = productTypeService_Source.getProductTypeByKey(productTypeKey)
+                .thenComposeAsync(productTypeApiHttpResponse ->
+                        productService_Source.getProductsByProductTypeId(
+                                productTypeApiHttpResponse.getBody().getId()))
                 .get()
                 .getBody().getResults();
 
-        // TODO Step 1: Import one product to poc
-        //
+        // Import one product from Source project to the POC project
         final ProductDraftImport productDraftImport = ProductDraftImportBuilder.of()
                 .key(products.get(0).getKey())
                 .description(
@@ -83,7 +68,7 @@ public class Task1d_IMPORT_PRODUCTS {
                 )
                 .productType(
                         ProductTypeKeyReferenceBuilder.of()
-                                .key(concProductTypeKey)                // where to get from?
+                                .key(productTypeKey)                // where to get from?
                                 .build()
                 )
                 .slug(LocalizedStringBuilder.of()
@@ -104,8 +89,8 @@ public class Task1d_IMPORT_PRODUCTS {
                             .getBody().getOperationStatus().get(0).getOperationId()
                 );
 
-        apiRoot_conc.close();
-        apiRoot_poc_import.close();
+        apiRoot_src.close();
+        apiRoot.close();
     }
 
 
@@ -130,6 +115,7 @@ public class Task1d_IMPORT_PRODUCTS {
                 .prices(productVariant.getPrices()
                         .stream()
                         .map(price -> PriceDraftImportBuilder.of()
+                                .key(price.getKey())
                                 .country(price.getCountry())
                                 .value(MoneyBuilder.of()
                                         .centAmount(price.getValue().getCentAmount())

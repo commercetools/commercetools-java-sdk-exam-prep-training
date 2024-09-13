@@ -2,8 +2,8 @@ package handson.exercises;
 
 import com.commercetools.api.client.ProjectApiRoot;
 import com.commercetools.api.models.product_type.ProductType;
-import handson.exercises.impl.ApiPrefixHelper;
 import handson.exercises.impl.ProductTypeService;
+import static handson.exercises.impl.ClientService.createApiClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -11,8 +11,6 @@ import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
-
-import static handson.solutions.impl.ClientService.createApiClient;
 
 
 public class Task1b_CREATE_PRODUCTTYPES {
@@ -35,50 +33,40 @@ public class Task1b_CREATE_PRODUCTTYPES {
         // TODO Step 1: Provide credentials in dev.properties for conc-client
         // TODO Step 2: Provide prefix in APIHelper for conc-client
 
-        Logger logger = LoggerFactory.getLogger(Task1b_CREATE_PRODUCTTYPES.class.getName());
+        Logger logger = LoggerFactory.getLogger("commercetools");
 
-        final String concProductTypeKey = "flowers-product-type";
+        final String productTypeKey = "flowers-product-type";
 
-        final ProjectApiRoot apiRoot_conc =
-                    createApiClient(
-                        ApiPrefixHelper.API_CONC_CLIENT_PREFIX.getPrefix()
-                    );
-        final ProjectApiRoot apiRoot_poc =
-                createApiClient(
-                        ApiPrefixHelper.API_POC_CLIENT_PREFIX.getPrefix()
-                );
 
-        ProductTypeService productTypeService_Concept = new ProductTypeService(apiRoot_conc);
-        ProductTypeService productTypeService_Poc = new ProductTypeService(apiRoot_poc);
+        final ProjectApiRoot apiRoot = createApiClient("poc");
+        ProductTypeService productTypeService = new ProductTypeService(apiRoot);
+
+        final ProjectApiRoot apiRoot_src = createApiClient("happy-garden-src-project-read");
+        ProductTypeService productTypeService_source = new ProductTypeService(apiRoot_src);
 
 
         // TODO Step 3: Use ProductTypeService.class to read any number of product types
 
-        logger.info("I've read the following product types from conc: " +
+        logger.info("I've read the following product types from source project: " +
                 ""
         );
 
-        ProductType productType = productTypeService_Concept
-                .getProductTypeByKey(concProductTypeKey)
+        ProductType productType = productTypeService_source
+                .getProductTypeByKey(productTypeKey)
                 .get()
                 .getBody();
 
-        // TODO Step 4: Write the transferProductType-method in ProductTypeService.class
+        // TODO Step 4: Write the transferProductType  in ProductTypeService
 
-        logger.info("I've created the following product type in poc: " +
-                productTypeService_Poc.transferProductType(productType)
+        logger.info("I've created the following product type in the project: " +
+                productTypeService.replicateProductType(productType)
                     .get()
                     .getBody().getName()
         );
 
 
-        apiRoot_conc.close();
-        apiRoot_poc.close();
-
-
-        // TODO
-        // Other ideas?
-        //
+        apiRoot.close();
+        apiRoot_src.close();
 
     }
 }

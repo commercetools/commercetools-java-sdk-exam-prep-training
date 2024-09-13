@@ -39,7 +39,7 @@ public class ProductTypeService {
                         .execute();
     }
 
-    public CompletableFuture<ApiHttpResponse<ProductType>> transferProductType(final ProductType productType) {
+    public CompletableFuture<ApiHttpResponse<ProductType>> replicateProductType(final ProductType productType) {
 
         return
                 apiRoot

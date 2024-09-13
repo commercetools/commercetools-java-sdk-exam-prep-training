@@ -1,7 +1,6 @@
 package prep;
 
 import com.commercetools.api.client.ProjectApiRoot;
-import prep.impl.ApiPrefixHelper;
 import prep.impl.CartService;
 import prep.impl.CustomerService;
 import org.slf4j.Logger;
@@ -21,14 +20,11 @@ public class PrepTask1b_CREATE_CARTS {
         // Create a cart
         // Create an anonymous cart
 
-        Logger logger = LoggerFactory.getLogger(PrepTask1b_CREATE_CARTS.class.getName());
+        Logger logger = LoggerFactory.getLogger("commercetools");
 
-        final ProjectApiRoot apiRoot_poc =
-                createApiClient(
-                        ApiPrefixHelper.API_POC_CLIENT_PREFIX.getPrefix()
-                );
-        CustomerService customerService = new CustomerService(apiRoot_poc);
-        CartService cartService = new CartService(apiRoot_poc);
+        final ProjectApiRoot apiRoot = createApiClient("ctp");
+        CustomerService customerService = new CustomerService(apiRoot);
+        CartService cartService = new CartService(apiRoot);
 
         // TODO Step 1: Create a cart for the customer
         // TODO Add Line Items to it
@@ -37,6 +33,6 @@ public class PrepTask1b_CREATE_CARTS {
                 ""
         );
 
-        apiRoot_poc.close();
+        apiRoot.close();
     }
 }

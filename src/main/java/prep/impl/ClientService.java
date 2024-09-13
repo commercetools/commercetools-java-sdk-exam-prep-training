@@ -25,9 +25,9 @@ public class ClientService {
 
         final Properties prop = new Properties();
         prop.load(ClientService.class.getResourceAsStream("/dev.properties"));
-        String clientId = prop.getProperty(prefix + "clientId");
-        String clientSecret = prop.getProperty(prefix + "clientSecret");
-        String projectKey = prop.getProperty(prefix + "projectKey");
+        String clientId = prop.getProperty(prefix + ".clientId");
+        String clientSecret = prop.getProperty(prefix + ".clientSecret");
+        String projectKey = prop.getProperty(prefix + ".projectKey");
 
         projectApiRoot = ApiRootBuilder.of()
                 .defaultClient(

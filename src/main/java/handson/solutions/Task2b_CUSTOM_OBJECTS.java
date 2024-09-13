@@ -1,8 +1,7 @@
 package handson.solutions;
 
 import com.commercetools.api.client.ProjectApiRoot;
-import handson.solutions.impl.ApiPrefixHelper;
-import handson.solutions.impl.CustomObjectService;
+import handson.solutions.impl.ConfigurationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,13 +20,10 @@ public class Task2b_CUSTOM_OBJECTS {
         // Learning Goals
         // Custom Objects
 
-        Logger logger = LoggerFactory.getLogger(Task2b_CUSTOM_OBJECTS.class.getName());
+        Logger logger = LoggerFactory.getLogger("commercetools");
 
-        final ProjectApiRoot apiRoot_poc =
-                createApiClient(
-                        ApiPrefixHelper.API_POC_CLIENT_PREFIX.getPrefix()
-                );
-        CustomObjectService customObjectService = new CustomObjectService(apiRoot_poc);
+        final ProjectApiRoot apiRoot = createApiClient("ctp");
+        ConfigurationService configurationService = new ConfigurationService(apiRoot);
 
         // TODO Step 1: Design a structure for storing the following information
         //  Cart value  - Bonus Points earned
@@ -71,7 +67,7 @@ public class Task2b_CUSTOM_OBJECTS {
         // TODO Step 2: Create the custom object(s)
 
         logger.info("Custom Object stored: " +
-                customObjectService.createCustomObject(
+                configurationService.createCustomObject(
                         "Schemas",
                         "bonusPointsCalculationSchema",
                                 bonusPointsCalculationSchemaObject
@@ -80,6 +76,6 @@ public class Task2b_CUSTOM_OBJECTS {
                         .getBody().getId()
         );
 
-        apiRoot_poc.close();
+        apiRoot.close();
     }
 }

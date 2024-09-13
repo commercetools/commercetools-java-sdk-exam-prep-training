@@ -25,5 +25,13 @@ public class ProductService {
                         .execute();
     }
 
-
+    public CompletableFuture<ApiHttpResponse<ProductPagedQueryResponse>> getProductsByProductTypeId(String productTypeId) {
+        return
+                apiRoot
+                        .products()
+                        .get()
+                        .withExpand("productType")
+                        .withWhere("productType(id=\"" + productTypeId + "\")")
+                        .execute();
+    }
 }

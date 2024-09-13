@@ -2,42 +2,31 @@ package handson.solutions;
 
 import com.commercetools.api.client.ProjectApiRoot;
 import com.commercetools.api.models.order.OrderPagedQueryResponse;
-import handson.solutions.impl.ApiPrefixHelper;
+import static handson.solutions.impl.ClientService.createApiClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 
-import static handson.solutions.impl.ClientService.createApiClient;
-import static handson.solutions.impl.ClientService.projectApiRoot;
-
 
 public class Task5_OPTIMIZATIONS {
 
     public static void main(String[] args) throws IOException, ExecutionException, InterruptedException {
 
-        // Learning Goals
-        // Bulk Download via continuations
+        Logger logger = LoggerFactory.getLogger("commercetools");
 
-        Logger logger = LoggerFactory.getLogger(Task5_OPTIMIZATIONS.class.getName());
+        final ProjectApiRoot apiRoot = createApiClient("ctp");
 
-        final ProjectApiRoot apiRoot_poc =
-                createApiClient(
-                        ApiPrefixHelper.API_POC_CLIENT_PREFIX.getPrefix()
-                );
-
-        // TODO Step 1: Provide date for orders to be downloaded
-        //
+        // Provide date for orders to be downloaded
         String orderDate = "2022-10-10";
 
-        // TODO Step 2: Fetch first order
-        //
+        // Fetch first order
          // Pagination is down to max 10.000
         final int PAGE_SIZE = 1;
         boolean lastPage = false;
 
-        String lastId = projectApiRoot
+        String lastId = apiRoot
                 .orders()
                 .get()
                 .addWhere("createdAt > \"" + orderDate + "\"")
@@ -50,12 +39,12 @@ public class Task5_OPTIMIZATIONS {
 
         logger.info("First order: " + lastId);
 
-        // TODO Step 3: Inspect code
+        // Inspect code
         // Correct code, it overruns the orderDate
-        //
+
         while(!lastPage) {
            OrderPagedQueryResponse orderPagedQueryResponse =
-                    apiRoot_poc
+                    apiRoot
                             .orders()
                             .get()
 
@@ -89,6 +78,6 @@ public class Task5_OPTIMIZATIONS {
             lastPage = !(size == PAGE_SIZE);
         }
 
-        apiRoot_poc.close();
+        apiRoot.close();
     }
 }
