@@ -21,11 +21,11 @@ public class Task3a_CREATE_CART {
 
         Logger logger = LoggerFactory.getLogger("commercetools");
 
-        final ProjectApiRoot apiRoot = createApiClient("poc");
+        final ProjectApiRoot apiRoot = createApiClient("ctp");
         CustomerService customerService = new CustomerService(apiRoot);
         CartService cartService = new CartService(apiRoot);
 
-        String customerKey = "customer-nd";
+        String customerKey = "customer-michael";
 
         // TODO Step 1: Create a cart for the customer
         // TODO Add Line Items to it

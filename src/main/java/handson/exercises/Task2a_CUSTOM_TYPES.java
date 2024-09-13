@@ -23,7 +23,7 @@ public class Task2a_CUSTOM_TYPES {
 
         Logger logger = LoggerFactory.getLogger("commercetools");
 
-        final ProjectApiRoot apiRoot = createApiClient("poc");
+        final ProjectApiRoot apiRoot = createApiClient("ctp");
         ConfigurationService configurationService = new ConfigurationService(apiRoot);
 
         // TODO Step 1: Use ConfigurationService.java to check if a custom type exists for storing customers' bonus points
@@ -36,14 +36,22 @@ public class Task2a_CUSTOM_TYPES {
 
 
 
-        final LocalizedString localizedNameForBonuspoints = LocalizedStringBuilder.of()
+        final LocalizedString localizedNameForType = LocalizedStringBuilder.of()
                 .values(new HashMap<String, String>() {
                     {
-                        put("de", "Bonuspunkte");
+                        put("en", "Loyalty points custom type");
+                    }
+                })
+                .build();
+
+        final LocalizedString localizedLabelForCustomField = LocalizedStringBuilder.of()
+                .values(new HashMap<String, String>() {
+                    {
                         put("en", "Bonus points");
                     }
                 })
                 .build();
+
 
         // TODO Step 2: Create a custom type for  storing bonus points to customers using ConfigurationService
         // You can use above localizedString for all name fields

@@ -24,24 +24,23 @@ public class Task1a_CRUD {
         // TODO Step 1: Provide names
         String customerGroupName = "coolbuyers";
         String customerGroupKey = "coolbuyers-customer-group";
-        String customerEmail = "michael15@example.com";
+        String customerEmail = "michael@example.com";
         String customerPassword = "password";
-        String customerKey = "customer-michael15";
+        String customerKey = "customer-michael";
         String customerFirstName = "michael";
         String customerLastName = "tester";
         String customerCountry = "DE";
 
         // Create an admin api client for your own project
         // TODO Step 2: Provide credentials in dev.properties
-        // TODO Step 3: Provide prefix in APIHelper
-        // TODO Step 4: Check ClientService.java
+        // TODO Step 3: Check ClientService.java
 
-        final ProjectApiRoot apiRoot = createApiClient("poc");
+        final ProjectApiRoot apiRoot = createApiClient("ctp");
         CustomerService customerService = new CustomerService(apiRoot);
         CustomerGroupService customerGroupService = new CustomerGroupService(apiRoot);
 
         // Create a customer group
-        // TODO Step 5: Create a customer group in CustomerGroupService.java
+        // TODO Step 4: Create a customer group in CustomerGroupService.createCustomerGroup
         logger.info("Customer group created: " +
                 customerGroupService.createCustomerGroup(
                                 customerGroupName,
@@ -55,7 +54,7 @@ public class Task1a_CRUD {
         // Create a customer, Verify the customer
         // Get the customer group
         // Assign the customer to your group
-        // TODO Step 6: Call CustomerService.class, CustomerGroupService.class
+        // TODO Step 5: Call CustomerService.createCustomer
         logger.info("Customer created: " +
                 ""
         );

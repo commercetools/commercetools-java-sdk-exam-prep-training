@@ -38,7 +38,7 @@ public class Task1b_CREATE_PRODUCTTYPES {
         final String productTypeKey = "flowers-product-type";
 
 
-        final ProjectApiRoot apiRoot = createApiClient("poc");
+        final ProjectApiRoot apiRoot = createApiClient("ctp");
         ProductTypeService productTypeService = new ProductTypeService(apiRoot);
 
         final ProjectApiRoot apiRoot_src = createApiClient("happy-garden-src-project-read");

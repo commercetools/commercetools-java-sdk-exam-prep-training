@@ -24,7 +24,7 @@ public class Task1c_IMPORT_API {
 
         // TODO Step 1: Provide your container key
         //
-        final String containerKey = "nd-product-data-container";
+        final String containerKey = "mh-product-data-container";
 
         // Create an admin import api client for your project
         // Use ClientService.class
@@ -32,7 +32,7 @@ public class Task1c_IMPORT_API {
         final ProjectApiRoot apiRoot = createImportApiClient("import");
         ImportService importService = new ImportService(apiRoot);
 
-        logger.info("I've created the following Import Container for poc: " +
+        logger.info("I've created the following Import Container : " +
                 importService.createImportContainer(containerKey)
                     .get()
                     .getBody().getKey()

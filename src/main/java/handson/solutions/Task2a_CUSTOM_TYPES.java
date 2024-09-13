@@ -34,11 +34,18 @@ public class Task2a_CUSTOM_TYPES {
                     .size()
         );
 
-        final LocalizedString localizedNameForBonuspoints = LocalizedStringBuilder.of()
+        final LocalizedString localizedNameForType = LocalizedStringBuilder.of()
+                .values(new HashMap<String, String>() {
+                    {
+                        put("en", "Loyalty points custom type");
+                    }
+                })
+                .build();
+
+        final LocalizedString localizedLabelForCustomField = LocalizedStringBuilder.of()
                 .values(new HashMap<String, String>() {
                     {
                         put("en", "Bonus points");
-                        put("de", "Bonuspunkte");
                     }
                 })
                 .build();
@@ -48,12 +55,12 @@ public class Task2a_CUSTOM_TYPES {
         logger.info("Custom type with a custom field for bonus points created : " +
                 configurationService.createCustomType(
                             "bonus-point-custom-type",
-                            localizedNameForBonuspoints,
+                            localizedNameForType,
                             ResourceTypeId.CUSTOMER,
                             Arrays.asList(FieldDefinitionBuilder.of()
                                                 .name("bonus-points-custom-field")
                                                 .required(false)
-                                                .label(localizedNameForBonuspoints)
+                                                .label(localizedLabelForCustomField)
                                                 .type(CustomFieldNumberType.of())
                                                 .build()
                             )
@@ -62,7 +69,7 @@ public class Task2a_CUSTOM_TYPES {
                         .getBody().getKey()
         );
 
-        // In the Merchnat Center, provide a random number 1..100 as bonus for your customer
+        // In the Merchant Center, provide a random number 1..100 as bonus for your customer
 
         apiRoot.close();
     }

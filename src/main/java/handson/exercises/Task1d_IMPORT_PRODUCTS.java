@@ -36,7 +36,7 @@ public class Task1d_IMPORT_PRODUCTS {
         // Import API: Product Import
 
         // TODO Step 1: Provide your container key, product type key, and tax category key
-        final String containerKey = "nd-product-data-container"; // to be created
+        final String containerKey = "mh-product-data-container"; // to be created
         final String productTypeKey = "flowers-product-type";
         final String taxCategoryKey = "standard-tax";
 

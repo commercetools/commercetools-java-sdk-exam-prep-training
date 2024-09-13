@@ -19,7 +19,7 @@ public class Task5_OPTIMIZATIONS {
 
         Logger logger = LoggerFactory.getLogger("commercetools");
 
-        final ProjectApiRoot apiRoot = createApiClient("poc");
+        final ProjectApiRoot apiRoot = createApiClient("ctp");
 
         // TODO Step 1: Provide date for orders to be downloaded
         //

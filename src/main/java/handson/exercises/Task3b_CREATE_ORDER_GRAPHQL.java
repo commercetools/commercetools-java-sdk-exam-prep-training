@@ -22,7 +22,7 @@ public class Task3b_CREATE_ORDER_GRAPHQL {
 
         Logger logger = LoggerFactory.getLogger("commercetools");
 
-        final ProjectApiRoot apiRoot = ClientService.createApiClient("poc");
+        final ProjectApiRoot apiRoot = ClientService.createApiClient("ctp");
         CustomerService customerService = new CustomerService(apiRoot);
         CartService cartService = new CartService(apiRoot);
         ConfigurationService configurationService = new ConfigurationService(apiRoot);
@@ -31,9 +31,9 @@ public class Task3b_CREATE_ORDER_GRAPHQL {
        // TODO Step 1: Provide cart id and customer key
         //
         String cartId = "";
-        String customerKey = "customer-nd";
+        String customerKey = "customer-michael";
         String customObjectContainer = "Schemas";
-        String customObjectKey = "bonusPointsCalculationSchema";
+        String customObjectKey = "bonus-points-calculation-schema";
         String customerBonusFieldName = "bonus-points-custom-field";
         String taxCategoryKey = "standard-tax";
 

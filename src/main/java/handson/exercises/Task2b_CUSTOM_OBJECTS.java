@@ -21,7 +21,7 @@ public class Task2b_CUSTOM_OBJECTS {
 
         Logger logger = LoggerFactory.getLogger("commercetools");
 
-        final ProjectApiRoot apiRoot = createApiClient("poc");
+        final ProjectApiRoot apiRoot = createApiClient("ctp");
         ConfigurationService configurationService = new ConfigurationService(apiRoot);
 
         // TODO Step 1: Design a structure for storing the following information
