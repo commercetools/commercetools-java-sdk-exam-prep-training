@@ -61,7 +61,6 @@ public class ExtensionsService {
                     .key("ct-loyalty-extension")
                     .name(lsb -> lsb.values(nameForType))
                     .resourceTypeIds(
-                        ResourceTypeId.CUSTOMER,
                         ResourceTypeId.ORDER
                     )
                     .fieldDefinitions(definitions)

@@ -45,7 +45,6 @@ public class CustomerService {
 
         if (StringUtils.isNotEmpty(anonymousCartId)){
                 customerSigninBuilder
-//                        .anonymousCartSignInMode(AnonymousCartSignInMode.USE_AS_NEW_ACTIVE_CUSTOMER_CART)
                         .anonymousCart(CartResourceIdentifierBuilder.of()
                                 .id(anonymousCartId)
                                 .build()
@@ -72,11 +71,6 @@ public class CustomerService {
                             .type(typeResourceIdentifierBuilder ->
                                     typeResourceIdentifierBuilder
                                             .key("ct-loyalty-extension"))
-                            .fields(
-                                    FieldContainerBuilder.of()
-                                            .addValue("points", customFieldRequest.getPoints())
-                                            .build()
-                            )
                             .build();
                     return apiRoot.inStore(storeKey)
                             .customers()

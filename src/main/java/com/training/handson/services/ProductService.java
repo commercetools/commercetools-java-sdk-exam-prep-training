@@ -31,7 +31,6 @@ public class ProductService {
 
         public CompletableFuture<ApiHttpResponse<ProductPagedSearchResponse>> getProducts(SearchRequest searchRequest) {
             ProductSearchRequestBuilder builder = ProductSearchRequestBuilder.of()
-                    .withSort(buildSort(searchRequest))
                     .productProjectionParameters(productSearchProjectionParamsBuilder -> productSearchProjectionParamsBuilder
                             .priceCurrency(searchRequest.getCurrency())
                             .priceCountry(searchRequest.getCountry())
@@ -64,29 +63,6 @@ public class ProductService {
                 .search()
                 .post(builder.build())
                 .execute();
-    }
-
-    private Function<SearchSortingBuilder, SearchSortingBuilder> buildSort(SearchRequest request) {
-        return ssb -> ssb
-                .field("variants.prices.centAmount")
-                .mode(SearchSortMode.MIN)
-                .order(SearchSortOrder.ASC)
-                .filter(
-                        SearchAndExpressionBuilder.of().and(List.of(
-                                SearchExactExpressionBuilder.of().exact(
-                                        SearchExactValueBuilder.of()
-                                                .field("variants.prices.currencyCode")
-                                                .value(request.getCurrency())
-                                                .build()
-                                ).build(),
-                                SearchExactExpressionBuilder.of().exact(
-                                        SearchExactValueBuilder.of()
-                                                .field("variants.prices.country")
-                                                .value(request.getCountry())
-                                                .build()
-                                ).build()
-                        )).build()
-                );
     }
 
     private List<ProductSearchFacetExpression> createFacets(SearchRequest searchRequest){
@@ -133,7 +109,7 @@ public class ProductService {
         return SearchFullTextExpressionBuilder.of()
                 .fullText(searchFullTextValueBuilder -> searchFullTextValueBuilder
                         .field("name")
-                        .value(searchRequest.getKeyword())
+                        .value("chair")
                         .language(searchRequest.getLocale())
                         .mustMatch(SearchMatchType.ANY))
                 .build();

@@ -20,14 +20,14 @@ public class ShippingService {
         return apiRoot
                 .shippingMethods()
                 .get()
-                .withExpand("zoneRates[*].zone")
+//                .withExpand("zoneRates[*].zone")
                 .execute();
     }
 
     public CompletableFuture<ApiHttpResponse<ShippingMethod>> getShippingMethodByKey(final String key) {
         return apiRoot
                 .shippingMethods()
-                .withKey(key)
+                .withKey("key")
                 .get()
                 .withExpand("zoneRates[*].zone")
                 .execute();

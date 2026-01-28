@@ -40,10 +40,6 @@ public class CartService {
                                         .deleteDaysAfterLastModification(90L)
                                         .anonymousId("an" + System.nanoTime())
                                         .country(cartCreateRequest.getCountry())
-                                        .addLineItems(lineItemDraftBuilder -> lineItemDraftBuilder
-                                                .sku(cartCreateRequest.getSku())
-                                                .quantity(cartCreateRequest.getQuantity())
-                                                .build())
                         )
                         .execute();
     }
@@ -67,7 +63,7 @@ public class CartService {
                                     .withId(cart.getId())
                                     .post(
                                             cartUpdateBuilder -> cartUpdateBuilder
-                                                    .version(cart.getVersion())
+                                                    .version(10L)
                                                     .actions(cartUpdateAction)
                                     )
                                     .execute();
