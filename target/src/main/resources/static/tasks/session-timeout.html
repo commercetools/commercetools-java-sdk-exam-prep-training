@@ -1,0 +1,73 @@
+<div class="container-fluid py-5">
+  <div class="row h-100 w-100">
+    <div class="col-md-9">
+      <br /><br />
+      <h2>Session Timed Out!</h2>
+      <br /><br />
+      <div>
+        <p>
+          This simulation demonstrates the process of switching devices or
+          logging out of your session. As a result, you will start as an
+          unregistered customer. You can browse products and create a new
+          anonymous cart. Later, when you sign in to your profile, you'll
+          experience cart merge options.
+        </p>
+      </div>
+
+      <ul>
+        <li>
+          Visit <strong>Browse products page</strong> to search for products
+          and create a new cart.
+        </li>
+        <li>
+          Use the <strong>Login page</strong> to sign in with your user
+          credentials and inspect the cart to see the merged cart.
+        </li>
+      </ul>
+      <p>
+        By default, The current anonymous cart is merged with the most recently
+        used customer cart.
+      </p>
+
+      <div class="accordion" id="cartAccordion">
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="task1">
+            <button
+              class="accordion-button"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#collapse1"
+              aria-expanded="true"
+              aria-controls="collapse1"
+            >
+              A customer should have the option to logout.
+            </button>
+          </h2>
+          <div
+            id="collapse1"
+            class="accordion-collapse show"
+            aria-labelledby="task1"
+            data-bs-parent="#cartAccordion"
+          >
+            <div class="accordion-body">
+              <div class="d-flex mb-3">
+                <button class="btn btn-primary" onclick="logout()">
+                  Logout</button
+                ><br />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function logout() {
+    if (localStorage.getItem('customerKey')) {
+      localStorage.removeItem('customerKey');
+      localStorage.removeItem('cartId');
+    }
+  }
+</script>

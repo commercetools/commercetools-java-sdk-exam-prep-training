@@ -1,0 +1,219 @@
+<div class="container py-5">
+  <div class="row h-100">
+    <div class="col-md-9">
+      <h2>GET/QUERY Shipping Methods</h2>
+      <br />
+
+      <div class="accordion" id="shippingMethodsAccordion">
+        <!-- Task 1 -->
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="task1">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse1" aria-expanded="true" aria-controls="collapse1">
+              1. A customer wants to see all shipping options.
+            </button>
+          </h2>
+          <div id="collapse1" class="accordion-collapse collapse show" aria-labelledby="task1" data-bs-parent="#shippingMethodsAccordion">
+            <div class="accordion-body">
+              <div class="d-flex justify-content-between align-items-center">
+                <span><code>GET /shipping-methods</code></span>
+                <button class="btn btn-primary ms-3" onclick="getShippingMethods()">Get Shipping Methods</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Task 2 -->
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="task2">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse2" aria-expanded="false" aria-controls="collapse2">
+              2. Display details, including rates, for a chosen shipping method.
+            </button>
+          </h2>
+          <div id="collapse2" class="accordion-collapse collapse" aria-labelledby="task2" data-bs-parent="#shippingMethodsAccordion">
+            <div class="accordion-body">
+              <span><code>GET /shipping-methods/{key}</code></span>
+              <div class="input-group mt-2">
+                <input type="text" class="form-control" id="key" placeholder="Enter the key..." />
+                <button class="btn btn-primary" onclick="getShippingMethod()">Get</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- Task 3 -->
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="task3">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse3" aria-expanded="false" aria-controls="collapse3">
+              4. A customer can check if a shipping method exists.
+            </button>
+          </h2>
+          <div id="collapse3" class="accordion-collapse collapse" aria-labelledby="task3" data-bs-parent="#shippingMethodsAccordion">
+            <div class="accordion-body">
+              <span><code>HEAD /shipping-methods/{key}</code></span>
+              <div class="input-group mt-2">
+                <input type="text" class="form-control" id="keyToCheck" placeholder="Enter the key..." />
+                <button class="btn btn-primary" onclick="checkShippingMethodExistence()">Check Existence</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Results Section -->
+      <div class="row mt-4">
+        <div class="col-md-8">
+          <pre id="json-response" class="p-3 border rounded" style="max-height: 300px; overflow: auto;"></pre>
+        </div>
+        <div class="col-md-4">
+          <div id="results"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+  function getShippingMethods() {
+    const resultsDiv = document.getElementById('results');
+    const jsonResponseDiv = document.getElementById('json-response');
+
+    resultsDiv.innerHTML = '';
+    jsonResponseDiv.textContent = '';
+
+    const url = `/api/shipping-methods/`;
+    fetch(url)
+      .then(handleResponse)
+      .then((shippingMethods) => {
+        jsonResponseDiv.textContent = JSON.stringify(shippingMethods, null, 2);
+
+        if (shippingMethods.results && shippingMethods.results.length > 0) {
+          console.log(shippingMethods);
+          shippingMethods.results.forEach((shippingMethod) => {
+            const card = document.createElement('div');
+            card.classList.add('col-md-12', 'mb-5');
+
+            card.innerHTML = `
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">${shippingMethod.name}</h5>
+                                        <p class="card-text">`;
+            if (
+              shippingMethod.zoneRates &&
+              shippingMethod.zoneRates.length > 0
+            ) {
+              shippingMethod.zoneRates.forEach((zoneRate) => {
+                card.innerHTML += zoneRate.zone.obj
+                  ? `<h4>${zoneRate.zone.obj.name}</h4>`
+                  : `<h4>${zoneRate.zone.id}</h4>`;
+                zoneRate.shippingRates.forEach((shippingRate) => {
+                  card.innerHTML += `<p>${shippingRate.price.currencyCode} ${shippingRate.price.centAmount}</p>`;
+                });
+              });
+            }
+            card.innerHTML += `</p>
+                                    </div>
+                                </div>
+                            `;
+            resultsDiv.appendChild(card);
+          });
+        } else {
+          resultsDiv.innerHTML = 'No shipping methods found.';
+        }
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+        jsonResponseDiv.textContent = error.message;
+      });
+  }
+  function getShippingMethod() {
+    const key = document.getElementById('key').value.trim();
+    const resultsDiv = document.getElementById('results');
+    const jsonResponseDiv = document.getElementById('json-response');
+
+    resultsDiv.innerHTML = '';
+    jsonResponseDiv.textContent = '';
+
+    if (!key) {
+      resultsDiv.innerHTML = 'Enter the key to check.';
+      return;
+    } else {
+      const url = `/api/shipping-methods/key=${key}`;
+
+      fetch(url)
+        .then(handleResponse)
+        .then((shippingMethod) => {
+          jsonResponseDiv.textContent = JSON.stringify(shippingMethod, null, 2);
+          console.log(shippingMethod);
+          if (shippingMethod) {
+            const card = document.createElement('div');
+            card.classList.add('col-md-12', 'mb-5');
+
+            card.innerHTML = `
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">${shippingMethod.name}</h5>
+                                        <p class="card-text">`;
+            if (
+              shippingMethod.zoneRates &&
+              shippingMethod.zoneRates.length > 0
+            ) {
+              shippingMethod.zoneRates.forEach((zoneRate) => {
+                card.innerHTML += zoneRate.zone.obj
+                  ? `<h4>${zoneRate.zone.obj.name}</h4>`
+                  : `<h4>${zoneRate.zone.id}</h4>`;
+                zoneRate.shippingRates.forEach((shippingRate) => {
+                  card.innerHTML += `<p>${shippingRate.price.currencyCode} ${shippingRate.price.centAmount}</p>`;
+                });
+              });
+            } else {
+              resultsDiv.innerHTML += '<p>No zone rates available.</p>';
+            }
+            card.innerHTML += `</p>
+                                    </div>
+                                </div>
+                            `;
+            resultsDiv.appendChild(card);
+          } else {
+            resultsDiv.innerHTML = "Shipping method doesn't exist.";
+          }
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+          jsonResponseDiv.textContent = error.message;
+        });
+    }
+  }
+
+  function checkShippingMethodExistence() {
+    const key = document.getElementById('keyToCheck').value.trim();
+    const jsonResponseDiv = document.getElementById('json-response');
+    const resultsDiv = document.getElementById('results');
+
+    resultsDiv.innerHTML = '';
+    jsonResponseDiv.textContent = '';
+
+    if (!key) {
+      resultsDiv.innerHTML = 'Enter the key to check.';
+      return;
+    } else {
+      const url = `/api/shipping-methods/key=${key}`;
+      fetch(url, { method: 'HEAD' })
+        .then((response) => {
+          jsonResponseDiv.textContent = JSON.stringify(response, null, 2);
+          if (response.ok) {
+            resultsDiv.innerHTML = 'Shipping Method exists';
+          } else if (response.status === 404) {
+            resultsDiv.innerHTML = "Shipping Method doesn't exist";
+          } else {
+            resultsDiv.innerHTML = 'Method is not implemented';
+          }
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+          jsonResponseDiv.textContent = error.message;
+        });
+    }
+  }
+</script>

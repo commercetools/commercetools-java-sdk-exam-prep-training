@@ -1,0 +1,154 @@
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h2 class="mb-4 text-center">Store Selection</h2>
+      <div class="accordion form-container" id="storeForm">
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="form">
+            <button
+              class="accordion-button"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#collapse-form"
+              aria-expanded="true"
+              aria-controls="collapse-form"
+            >
+              Select Store:
+            </button>
+          </h2>
+          <div
+            id="collapse-form"
+            class="accordion-collapse show"
+            aria-labelledby="form"
+            data-bs-parent="#storeForm"
+          >
+            <div class="accordion-body">
+              <div class="mb-4">
+                <label for="store" class="form-label">Select Store</label>
+                <select
+                  class="form-control"
+                  id="store"
+                  onchange="updateStoreDetails()"
+                >
+                  <option value="">Select a store</option>
+                </select>
+              </div>
+              <div class="mb-4">
+                <label for="currency" class="form-label">Select Currency</label>
+                <select class="form-control" id="currency">
+                  <option value="">Select a currency</option>
+                </select>
+              </div>
+              <div class="mb-4">
+                <label for="locale" class="form-label">Select Locale</label>
+                <select class="form-control" id="locale">
+                  <option value="">Select a locale</option>
+                </select>
+              </div>
+              <div class="mb-4">
+                <label for="country" class="form-label">Select Country</label>
+                <select class="form-control" id="country">
+                  <option value="">Select a country</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  async function fetchStores() {
+    const url = '/api/project-settings/stores';
+    const stores = await fetch(url)
+      .then(handleResponse)
+      .then((response) => response.results);
+
+    const country2Currency = {
+      DE: 'EUR',
+      GB: 'GBP',
+      US: 'USD',
+    };
+
+    return stores.map((store) => ({
+      id: store.key,
+      name: store.name['en-US'],
+      locales: store.languages,
+      countries: store.countries.map((country) => country.code),
+      currencies: store.countries.map(
+        (country) => country2Currency[country.code],
+      ),
+    }));
+  }
+
+  async function populateStores() {
+    const storeSelect = document.getElementById('store');
+    const stores = await fetchStores();
+    stores.forEach((store) => {
+      let option = document.createElement('option');
+      option.value = store.id;
+      option.textContent = store.name;
+      option.dataset.locales = JSON.stringify(store.locales);
+      option.dataset.countries = JSON.stringify(store.countries);
+      option.dataset.currencies = JSON.stringify(store.currencies);
+      storeSelect.appendChild(option);
+    });
+  }
+
+  async function updateStoreDetails() {
+    const storeSelect = document.getElementById('store');
+    const selectedOption = storeSelect.options[storeSelect.selectedIndex];
+
+    if (!selectedOption.value) return;
+
+    const locales = JSON.parse(selectedOption.dataset.locales);
+    const countries = JSON.parse(selectedOption.dataset.countries);
+    const currencies = JSON.parse(selectedOption.dataset.currencies);
+
+    populateDropdown('locale', locales);
+    populateDropdown('country', countries);
+    populateDropdown('currency', currencies);
+  }
+
+  function populateDropdown(elementId, items) {
+    const dropdown = document.getElementById(elementId);
+    dropdown.innerHTML = '<option value="">Select an option</option>';
+    items.forEach((item) => {
+      let option = document.createElement('option');
+      option.value = item;
+      option.textContent = item;
+      dropdown.appendChild(option);
+    });
+  }
+
+  // Single event handler to detect changes
+  function handleDropdownChange(event) {
+    const { id, value } = event.target;
+
+    if (!value) return; // Ignore if the value is empty
+
+    // Save the selected value to localStorage
+    localStorage.setItem(id, value);
+
+    // Optionally log or perform other actions based on which dropdown changed
+    console.log(`${id} changed to: ${value}`);
+  }
+
+  // Attach the event listener to all form dropdowns
+  document
+    .getElementById('store')
+    .addEventListener('change', handleDropdownChange);
+  document
+    .getElementById('currency')
+    .addEventListener('change', handleDropdownChange);
+  document
+    .getElementById('locale')
+    .addEventListener('change', handleDropdownChange);
+  document
+    .getElementById('country')
+    .addEventListener('change', handleDropdownChange);
+
+  populateStores();
+</script>

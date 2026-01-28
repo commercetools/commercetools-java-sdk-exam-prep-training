@@ -1,0 +1,81 @@
+<div class="container-fluid py-5">
+  <div class="row h-100">
+    <div class="col-md-9">
+      <h2>Custom Fields</h2>
+      <div class="accordion" id="typeAccordion">
+        <div class="accordion" id="typeAccordion">
+          <div class="accordion" id="typeAccordion">
+            <!-- Top accordion - open by default -->
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="task2">
+                <button
+                  class="accordion-button"
+                  type="button"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#collapse2"
+                  aria-expanded="true"
+                  aria-controls="collapse2"
+                >
+                  Create Custom Type.
+                </button>
+              </h2>
+              <div
+                id="collapse2"
+                class="accordion-collapse collapse show"
+                aria-labelledby="task2"
+                data-bs-parent="#typeAccordion"
+              >
+                <div class="accordion-body">
+                  <span>CREATE TYPE - <code>POST /types</code></span
+                  ><br /><br />
+                  <button class="btn btn-primary" onclick="createType()">
+                    Create Type
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            
+          </div>
+
+          <br /><br />
+          <main class="d-flex flex-nowrap">
+            <div class="row h-100">
+              <div class="d-flex col-md-12">
+                <div class="container col-md-12">
+                  <pre
+                    id="json-response"
+                    class="mt-1 flex-fill d-flex overflow-auto"
+                  ></pre>
+                </div>
+              </div>
+            </div>
+          </main>
+        </div>
+      </div>
+
+      <script>
+        function createType() {
+          const jsonResponseDiv = document.getElementById('json-response');
+          jsonResponseDiv.textContent = '';
+
+          fetch('/api/extensions/types', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          })
+            .then(handleResponse)
+            .then((data) => {
+              console.log('Success:', data);
+              jsonResponseDiv.textContent = JSON.stringify(data, null, 2);
+            })
+            .catch((error) => {
+              console.error('Error:', error);
+              jsonResponseDiv.textContent = error.message;
+            });
+        }
+      </script>
+    </div>
+  </div>
+</div>
