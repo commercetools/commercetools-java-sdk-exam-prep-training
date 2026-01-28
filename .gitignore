@@ -19,13 +19,43 @@
 *.tar.gz
 *.rar
 
+# Maven
+target/
+
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 
-dev.properties
+src/main/resources/application.properties
 
 .gradle
 .idea
 build
 .DS_Store
 src/.DS_Store
+
+# IDE - IntelliJ
+*.iml
+*.iws
+*.ipr
+out/
+
+# IDE - Eclipse
+.classpath
+.project
+.settings/
+
+# IDE - VS Code
+.vscode/
+
+# Maven wrapper
+!.mvn/wrapper/maven-wrapper.jar
+
+# Logs
+logs/
+*.log.*
+
+# Temporary files
+*.tmp
+*.bak
+*.swp
+*~

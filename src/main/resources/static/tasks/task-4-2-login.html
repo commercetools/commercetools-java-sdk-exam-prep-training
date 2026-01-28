@@ -1,0 +1,218 @@
+<div class="container-fluid py-5">
+  <div class="row h-100">
+    <div class="col-md-9">
+      <h2>Existing Customer Sign In</h2>
+
+      <div class="accordion" id="loginAccordion">
+
+        <!-- Accordion Item 1 -->
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="task1">
+            <button
+              class="accordion-button"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#collapse1"
+              aria-expanded="true"
+              aria-controls="collapse1"
+            >
+              A customer should have the option to sign in.
+            </button>
+          </h2>
+          <div
+            id="collapse1"
+            class="accordion-collapse collapse show"
+            aria-labelledby="task1"
+            data-bs-parent="#loginAccordion"
+          >
+            <div class="accordion-body">
+              <span>CUSTOMER LOGIN - <code>POST /customers/login</code></span>
+              <br /><br />
+              <div class="mt-4">
+                <label for="email" class="form-label">Email Address</label>
+                <input
+                  type="email"
+                  class="form-control"
+                  id="email"
+                  placeholder="Email"
+                />
+              </div>
+              <div class="mt-4">
+                <label for="password" class="form-label">Password</label>
+                <input
+                  type="password"
+                  class="form-control"
+                  id="password"
+                  placeholder="Password"
+                />
+              </div>
+              <div class="mt-4 mb-4">
+                <label for="anonymousCart" class="form-label">Anonymous Cart (read-only)</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="anonymousCart"
+                  name="anonymousCart"
+                  readonly
+                />
+              </div>
+              <button class="btn btn-primary" onclick="login()">Sign In</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Accordion Item 2 -->
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="task2">
+            <button
+              class="accordion-button collapsed"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#collapse2"
+              aria-expanded="false"
+              aria-controls="collapse2"
+            >
+              Customers and Orders must have a custom field to store custom bonus points.
+            </button>
+          </h2>
+          <div
+            id="collapse2"
+            class="accordion-collapse collapse"
+            aria-labelledby="task2"
+            data-bs-parent="#loginAccordion"
+          >
+            <div class="accordion-body">
+              <span>UPDATE CUSTOMER - <code>POST /customers/key</code></span>
+              <br /><br />
+              <div class="mb-3">
+                <label for="customer-key" class="form-label">Customer (read only)</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="customer-key"
+                  placeholder="Customer Key"
+                  readonly
+                />
+              </div>
+              <div class="mb-3">
+                <label for="points" class="form-label">Welcome points:</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="points"
+                />
+              </div>
+              <button class="btn btn-primary" onclick="addWelcomeBonus()">
+                Update Customer
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- JSON Response Display -->
+      <div class="mt-4">
+        <pre
+          id="json-response"
+          class="p-3 border rounded"
+          style="max-height: 300px; overflow: auto;"
+        ></pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+  function displayCustomerKey(event) {
+    let customerKey = localStorage.getItem('customerKey');
+
+    if (customerKey) event.target.value = customerKey;
+    else event.target.value = 'Customer is not logged in';
+  }
+
+  if (typeof customerKeyInput === 'undefined') {
+    let customerKeyInput = document.getElementById('customer-key');
+    customerKeyInput.addEventListener('focus', displayCustomerKey);
+  }
+
+  function displayAnonymousCart(event) {
+    let cartId = localStorage.getItem('cartId');
+
+    if (cartId) event.target.value = cartId;
+    else event.target.value = 'No cart in local cache';
+  }
+
+  if (typeof anonymousCartInput === 'undefined') {
+    let anonymousCartInput = document.getElementById('anonymousCart');
+    anonymousCartInput.addEventListener('focus', displayAnonymousCart);
+  }
+
+  function login() {
+    const jsonResponseDiv = document.getElementById('json-response');
+    jsonResponseDiv.textContent = '';
+
+    let cartId = localStorage.getItem('cartId');
+    const storeKey = localStorage.getItem('store');
+    let formData = {
+      email: document.getElementById('email').value,
+      password: document.getElementById('password').value,
+    };
+    if (cartId) {
+      formData.anonymousCartId = cartId;
+    }
+
+    fetch(`/api/in-store/${storeKey}/customers/login`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(formData),
+    })
+      .then(handleResponse)
+      .then((data) => {
+        console.log('Success:', data);
+        jsonResponseDiv.textContent = JSON.stringify(data, null, 2);
+        if (data.cart) {
+          localStorage.setItem('cartId', data.cart.id);
+        }
+        localStorage.setItem('customerKey', data.customer.key);
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+        jsonResponseDiv.textContent = error.message;
+      });
+  }
+  function addWelcomeBonus() {
+    const jsonResponseDiv = document.getElementById('json-response');
+    jsonResponseDiv.textContent = '';
+
+    const storeKey = localStorage.getItem('store');
+    const customerKey = localStorage.getItem('customerKey');
+
+    let formData = {
+      points: Number(document.getElementById('points').value)
+    };
+
+    fetch(
+      `/api/in-store/${storeKey}/customers/key=${customerKey}/custom-fields`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      },
+    )
+    .then(handleResponse)
+    .then((data) => {
+      console.log('Success:', data);
+      jsonResponseDiv.textContent = JSON.stringify(data, null, 2);
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+      jsonResponseDiv.textContent = error.message;
+    });
+  }
+</script>

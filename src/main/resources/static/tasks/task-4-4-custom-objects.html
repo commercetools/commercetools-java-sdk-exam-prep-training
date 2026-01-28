@@ -1,0 +1,125 @@
+<div class="container py-5">
+  <div class="row h-100">
+    <div class="col-md-9">
+      <h2>Custom Objects</h2>
+      <br />
+      <div class="accordion" id="customObjectsAccordion">
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="task1">
+            <button
+              class="accordion-button"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#collapse1"
+              aria-expanded="true"
+              aria-controls="collapse1"
+            >
+              Marketing team should have the option to view and modify the bonus points schema.
+            </button>
+          </h2>
+          <div
+            id="collapse1"
+            class="accordion-collapse show"
+            aria-labelledby="task1"
+            data-bs-parent="#customObjectsAccordion"
+          >
+            <div class="accordion-body">
+              <span>CREATE/UPDATE CUSTOMOBJECTS -
+                <code>POST /extensions/custom-objects</code>
+              </span>
+              <br /><br />
+              <div class="row h-100">
+              <div class="d-flex col-md-12">
+                <div class="container col-md-12">
+                  <pre contenteditable="true" 
+                    id="schema"
+                    class="mt-1 flex-fill d-flex overflow-auto"
+                  ></pre>
+                </div>
+              </div>
+              
+              <button class="btn btn-primary" onclick="updateSchema()">
+                Update
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <main class="d-flex flex-nowrap"> <div class="row h-100"> <div class="d-flex col-md-12"> <div class="container col-md-12"> <pre id="results" class="mt-1 flex-fill d-flex overflow-auto" ></pre> </div> </div> </div> </main>
+    </div>
+  </div>
+</div>
+
+<script>
+  function updateSchema() {
+    const rawJson = document.getElementById('schema').innerText;
+    const results = document.getElementById('results');
+
+    try {
+      const schemaJson = JSON.parse(rawJson);
+
+      let url = `/api/extensions/custom-objects`;
+
+
+      fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ json: schemaJson }),
+      })
+      .then(handleResponse)
+      .then((data) => {
+        console.log('Success:', data);
+        results.textContent = 'Schema updated successfully.';
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+        results.textContent = error.message;
+      });
+    } catch (e) {
+      results.textContent = 'Invalid JSON: ' + e.message;
+    }
+  }
+
+  function getSchema() {
+    const schema = document.getElementById('schema');
+    schema.textContent = '';
+
+    const url = `/api/extensions/custom-objects`;
+
+    fetch(url)
+      .then(handleResponse)
+      .then((data) => {
+        console.log('Success:', data);
+        results.textContent = 'Fetched current Schema successfully.';
+        schema.textContent = JSON.stringify(data.value, null, 2);
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+        const backupSchema = {
+          "1": {
+            minCartValue: 1,
+            maxCartValue: 1000,
+            factor: 0,
+            addon: 1
+          },
+          "1001": {
+            minCartValue: 1001,
+            maxCartValue: 10000,
+            factor: 1,
+            addon: 0
+          },
+          "10001": {
+            minCartValue: 10001,
+            maxCartValue: 10000000,
+            factor: 2,
+            addon: 0
+          }
+        };
+        schema.textContent = JSON.stringify(backupSchema, null, 2);
+      });
+  }
+
+  getSchema()
+</script>
